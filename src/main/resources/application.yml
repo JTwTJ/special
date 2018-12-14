@@ -1,0 +1,10 @@
+spring:
+  freemarker:
+    suffix: .ftl
+    content-type: text/html
+    charset: UTF-8
+    cache: false
+    template-loader-path:
+      - classpath:/templates
+  mvc:
+    static-path-pattern: /static/**
