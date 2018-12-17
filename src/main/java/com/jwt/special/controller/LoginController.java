@@ -10,15 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
  * @date 2018/12/14 0014 下午 1:54
  */
 @Controller
-@RequestMapping(value = "/index")
+@RequestMapping(value = "/user")
 @Slf4j
-public class IndexController {
+public class LoginController {
 
-    @RequestMapping(value = "/freemarker")
+    @RequestMapping(value = "/index")
     public ModelAndView sendHello(ModelAndView mav) {
         log.info("跳转freemarker页面");
         mav.addObject("name", "jwt");
-        mav.setViewName("index");
+        mav.setViewName("login");
         return mav;
     }
 }
