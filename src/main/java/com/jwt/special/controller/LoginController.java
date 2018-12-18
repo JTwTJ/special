@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @author jiangwentaogai
+ * @author jiangwentao
  * @date 2018/12/14 0014 下午 1:54
  */
 @Controller
@@ -16,9 +16,15 @@ public class LoginController {
 
     @RequestMapping(value = "/index")
     public ModelAndView sendHello(ModelAndView mav) {
-        log.info("跳转freemarker页面");
-        mav.addObject("name", "jwt");
+        log.info("跳转index页面");
         mav.setViewName("login");
+        return mav;
+    }
+
+    @RequestMapping(value = "/home")
+    public ModelAndView sendHome(ModelAndView mav) {
+        log.info("跳转到首页");
+        mav.setViewName("home");
         return mav;
     }
 }
