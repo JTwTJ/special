@@ -37,9 +37,9 @@
                 </br>
                 </br>
                 </br>
-                <div class="">
+                <#--<div class="">
 
-                </div>
+                </div>-->
                 <div class="form-group">
                     <div style="position: absolute; left: 40px; top: 10px; width: 40px; height: 40px; line-height: 40px; text-align: center">
                         <span class="glyphicon glyphicon-user"></span>
@@ -60,7 +60,7 @@
                     </div>
                     <span class="text">Remember me</span>
                     <button type="submit" class="btn btn-default">登录</button>
-                </div>
+        </div>
             </form>
         </div>
     </div>

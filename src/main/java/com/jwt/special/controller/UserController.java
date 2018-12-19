@@ -25,9 +25,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String userLogin(HttpServletRequest request, @RequestParam(value = "username", required = false) String username,
-                            @RequestParam(value = "password", required = false) String password) {
-        System.out.println(username + "1111111111" + password);
+    public String userLogin(HttpServletRequest request, @RequestParam(value = "account") String account,
+                            @RequestParam(value = "password") String password) {
+        System.out.println(account + "1111111111" + password);
         log.info("跳转到首页");
         return "home";
     }
