@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="/static/css/login.css" rel="stylesheet"></head>
     <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     <#--<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 <script>
     /**
@@ -19,8 +18,8 @@
         var password = $("#password").val();
         if(account=="" || password=="")
         {
-            alert("账号或密码不能为空！");
-            /*$("#message").text("账号或密码不能为空！");*/
+            $("#message").text(" 账号或密码不能为空!");
+            $("#div_err").show();
             return false;
         }
         return true;
@@ -39,12 +38,14 @@
                 </br>
                 </br>
                 </br>
-                <div id="error" class="">
-                    <p v-if></p>
+                <div id="div_err" style="display: none">
+                    <p>
+                        <span id="message" class="glyphicon glyphicon-warning-sign" style="color: rgb(241, 0, 0);"></span>
+                    </p>
                 </div>
                 <div class="form-group">
                     <div style="position: absolute; left: 40px; top: 10px; width: 40px; height: 40px; line-height: 40px; text-align: center">
-                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="glyphicon glyphicon-user">${msg}</span>
                     </div>
                     <input type="text" class="form-control" id="account" name="account" placeholder="账  号">
                 </div>
