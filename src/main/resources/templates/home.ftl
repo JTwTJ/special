@@ -21,15 +21,15 @@
                 </div>
                 <div class="col-md-2 column">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">superadmin
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">${username! " "}
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="#">修改密码</a>
+                                <a data-toggle="modal" data-target="#editPwd">修改密码</a>
                             </li>
                             <li>
-                                <a href="#">退出</a>
+                                <a href="/user/index">退出</a>
                             </li>
                         </ul>
                     </div>
@@ -68,9 +68,14 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div id="home" class="container tab-pane active"><br>
-            <h3>HOME</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <div id="home" class="container tab-pane active" style="overflow: hidden"><br>
+            <div style="margin-left: 40%; margin-top: 10%">
+                <img src="/static/img/home.png">
+            </div><br>
+            <div style="text-align: center">
+                <h4>Hi! ${username! " "},欢迎登录！</h4>
+            </div>
+
         </div>
         <div id="menu1" class="container tab-pane fade"><br>
             <h3>Menu 1</h3>
@@ -82,6 +87,30 @@
         </div>
     </div>
 </div>
-
+<#--修改密码模态框-->
+<div class="modal fade" id="editPwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

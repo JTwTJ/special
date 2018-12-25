@@ -6,6 +6,9 @@ spring:
     cache: false
     template-loader-path:
       - classpath:/templates
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
   mvc:
     static-path-pattern: /static/**
   datasource:
@@ -17,6 +20,13 @@ spring:
     max-wait: 10000
     min-idle: 5
     initial-size: 5
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
 # logging
 logging:
   level:
