@@ -1,4 +1,7 @@
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   freemarker:
     suffix: .ftl
     content-type: text/html
@@ -12,7 +15,7 @@ spring:
   mvc:
     static-path-pattern: /static/**
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/special?characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/special?serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver

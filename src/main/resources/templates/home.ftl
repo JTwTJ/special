@@ -7,6 +7,32 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function updatePwd() {
+            var oldPwd = $("#oldPwd").val();
+            var newPwd = $("#newPwd").val();
+            var confirmPwd = $("#confirmPwd").val();
+            if (oldPwd == "") {
+                $("#span01").html("<font color='red'>请输入原密码!</font>");
+                return false;
+            } else if (newPwd == "") {
+                $("#span01").html("<font color='red'>请输入新密码!</font>");
+                return false;
+            } else if (confirmPwd == "") {
+                $("#span01").html("<font color='red'>请输入确认密码!</font>");
+                return false;
+            } else if (confirmPwd != newPwd) {
+                $("#span01").html("<font color='red'>两次密码不一致!</font>");
+                return false;
+            } else {
+                jQuery.post("/user/updatePassword", {"oldPwd": oldPwd, "newPwd": newPwd}, function (data) {
+                    /*$("#span01").html("<font color='red'>!</font>");*/
+                    console.dir(data);
+                }, "json");
+                /*alert(oldPwd+"11"+newPwd+"11"+confirmPwd);*/
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -73,7 +99,7 @@
                 <img src="/static/img/home.png">
             </div><br>
             <div style="text-align: center">
-                <h4>Hi! ${username! " "},欢迎登录！</h4>
+                <h4>Hi!  ${username! " "},欢迎登录!</h4>
             </div>
 
         </div>
@@ -96,17 +122,25 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    模态框（Modal）标题
+                    修改密码
                 </h4>
             </div>
             <div class="modal-body">
-                在这里添加一些文本
+                <div style="width: 568px; height: 255px"><br>
+                    <br>
+                    <input id="oldPwd" name="oldpwd" class="form-control" type="password" placeholder="原密码" style="width: 350px; margin-left: 90px"/>
+                    <br>
+                    <input id="newPwd" name="newpwd" class="form-control" type="password" placeholder="新密码" style="width: 350px; margin-left: 90px"/>
+                    <br>
+                    <input id="confirmPwd" name="confirmpwd" class="form-control" type="password" placeholder="确认密码" style="width: 350px; margin-left: 90px">
+                    <span id="span01" style="margin-left: 90px"></span>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary">
-                    提交更改
+                <button type="button" class="btn btn-primary" onclick="return updatePwd()">
+                    保存
                 </button>
             </div>
         </div>

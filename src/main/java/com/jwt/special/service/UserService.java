@@ -9,4 +9,6 @@ import com.jwt.special.model.User;
 public interface UserService {
     /** 通过账户查询用户 */
     User findUserByAccount(String account);
+    /** 修改密码 */
+    Integer updatePassword(long userId, String newPwd);
 }

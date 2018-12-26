@@ -12,4 +12,6 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper {
     /** 通过账号查询用户 */
     User findUserByAccount(@Param("account") String account);
+    /** 修改密码 */
+    Integer updatePassword(@Param("userId") long userId, @Param("newPwd") String newPwd);
 }

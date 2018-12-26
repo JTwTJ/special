@@ -20,4 +20,9 @@ public class UserServiceImpl implements UserService {
     public User findUserByAccount(String account) {
         return userMapper.findUserByAccount(account);
     }
+
+    @Override
+    public Integer updatePassword(long userId, String newPwd) {
+        return userMapper.updatePassword(userId, newPwd);
+    }
 }
