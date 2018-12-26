@@ -24,6 +24,11 @@
         departmentId departmentId, departmentName departmentName, back_system backSystem, front_system frontSystem,
         is_del isDel, create_time createTime, update_time updateTime
     </sql>
+    <update id="updatePassword">
+        update <include refid="table_name"/>
+        set password = #{newPwd, jdbcType=VARCHAR}, update_time = now()
+        where user_id = #{userId, jdbcType=BIGINT}
+    </update>
     <select id="findUserByAccount" resultMap="BaseResultMap" parameterType="string">
         select <include refid="base_column_list"/>
         from <include refid="table_name"/>
