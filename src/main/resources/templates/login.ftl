@@ -7,26 +7,13 @@
     <meta name="renderer" content="webkit">
     <title>登录</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link href="/static/css/login.css" rel="stylesheet"></head>
+    <#--<link rel="stylesheet" href="/static/css/bootstrap.min.css">-->
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
+    <script src="/static/js/home.js"></script>
     <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/static/js/jquery-3.3.1.min.js"></script>
+    <#--<script src="/static/js/jquery-3.3.1.min.js"></script>-->
+    <#--<script src="/static/js/bootstrap.min.js"></script>-->
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script>
-    /*
-     * 判断是登录账号和密码是否为空
-     */
-    function loginCheck() {
-        var account = $("#account").val();
-        var password = $("#password").val();
-        if(account=="" || password=="")
-        {
-           $("#div_err").html("<p><span id=\"message\" class=\"glyphicon glyphicon-warning-sign\" style=\"color: rgb(241, 0, 0);\"> 账号或密码不能为空！</span></p>");
-            return false;
-        }
-        return true;
-    }
-</script>
 </head>
 <body>
 <div class="container">

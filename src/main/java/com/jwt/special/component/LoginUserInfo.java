@@ -39,8 +39,8 @@ public class LoginUserInfo {
     }
 
     public void setUserInfo(String key, UserDto userVo){
-        userVo.setLoginTime(new Date());
-        redisComponent.set(key, JSON.toJSONString(userVo), RedisLoginTimeOut, TimeUnit.MINUTES);
+            userVo.setLoginTime(new Date());
+            redisComponent.set(key, JSON.toJSONString(userVo), RedisLoginTimeOut, TimeUnit.MINUTES);
     }
 
     public void clearUserInfo(String key){

@@ -14,4 +14,6 @@ public interface UserMapper {
     User findUserByAccount(@Param("account") String account);
     /** 修改密码 */
     Integer updatePassword(@Param("userId") long userId, @Param("newPwd") String newPwd);
+    /** 通过id查询用户 */
+    User getUserById(@Param("userId") long userId);
 }

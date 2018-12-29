@@ -11,4 +11,6 @@ public interface UserService {
     User findUserByAccount(String account);
     /** 修改密码 */
     Integer updatePassword(long userId, String newPwd);
+    /** 通过id查询用户 */
+    User getUserById(long userId);
 }

@@ -25,4 +25,9 @@ public class UserServiceImpl implements UserService {
     public Integer updatePassword(long userId, String newPwd) {
         return userMapper.updatePassword(userId, newPwd);
     }
+
+    @Override
+    public User getUserById(long userId) {
+        return userMapper.getUserById(userId);
+    }
 }

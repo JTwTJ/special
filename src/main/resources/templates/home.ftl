@@ -5,33 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css">
+   <#-- <link rel="stylesheet" href="/static/css/bootstrap.min.css">-->
+    <#--<script src="/static/js/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"-->
+    <script src="/static/js/home.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
-        function updatePwd() {
-            var oldPwd = $("#oldPwd").val();
-            var newPwd = $("#newPwd").val();
-            var confirmPwd = $("#confirmPwd").val();
-            if (oldPwd == "") {
-                $("#span01").html("<font color='red'>请输入原密码!</font>");
-                return false;
-            } else if (newPwd == "") {
-                $("#span01").html("<font color='red'>请输入新密码!</font>");
-                return false;
-            } else if (confirmPwd == "") {
-                $("#span01").html("<font color='red'>请输入确认密码!</font>");
-                return false;
-            } else if (confirmPwd != newPwd) {
-                $("#span01").html("<font color='red'>两次密码不一致!</font>");
-                return false;
-            } else {
-                jQuery.post("/user/updatePassword", {"oldPwd": oldPwd, "newPwd": newPwd}, function (data) {
-                    /*$("#span01").html("<font color='red'>!</font>");*/
-                    console.dir(data);
-                }, "json");
-                /*alert(oldPwd+"11"+newPwd+"11"+confirmPwd);*/
-            }
-        }
+        $(document).ready(function () {
+            $.cookie("token", "${token! " "}", {expires:30*60});
+        });
     </script>
 </head>
 <body>
@@ -41,12 +26,12 @@
         <div class="col-md-12 column">
             <div class="row clearfix">
                 <div class="col-md-10 column">
-                    <h3>
+                    <h1>
                         (CEO/董事长)专项任务后台管理
-                    </h3>
+                    </h1>
                 </div>
-                <div class="col-md-2 column">
-                    <div class="btn-group">
+                <div class="col-md-2 column" style="height: 69px">
+                    <div class="btn-group" style="margin-top: 20px">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">${username! " "}
                             <span class="caret"></span>
                         </button>
@@ -65,12 +50,9 @@
     </div>
     <br>
     <!-- Nav pills -->
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs" role="tablist" style="font-size: 20px">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#home">首页</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu1">(CEO/董事长)督办表</a>
+            <a class="nav-link" data-toggle="tab" href="#menu1"">(CEO/董事长)督办表</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#menu2">生日提醒</a>
@@ -104,8 +86,181 @@
 
         </div>
         <div id="menu1" class="container tab-pane fade"><br>
-            <h3>Menu 1</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <div class="content-header">
+                任务督办表
+            </div>
+            <div class="op-area">
+                <span>查询结果:</span>
+                <div class="op-area-right">
+                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"> 查询</button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> 导入</button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 导出基本信息</button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span> 导出登记表</button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 新增</button>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-12 column" style="overflow: auto">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                操作
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                收文日期
+                            </th>
+                            <th>
+                                接收时间
+                            </th>
+                            <th>
+                                电话
+                            </th>
+                            <th>
+                                文件编号
+                            </th>
+                            <th>
+                                文件名称
+                            </th>
+                            <th>
+                                批示日期
+                            </th>
+                            <th>
+                                杜总批示意见
+                            </th>
+                            <th>
+                                是否签字
+                            </th>
+                            <th>
+                                签字日期
+                            </th>
+                            <th>
+                                流转部门(领导)
+                            </th>
+                            <th>
+                                董事长批示文号
+                            </th>
+                            <th>
+                                备注
+                            </th>
+                            <th>
+                                修改人
+                            </th>
+                            <th>
+                                修改时间
+                            </th>
+                            <th>
+                                板块
+                            </th>
+                            <th>
+                                公司名称
+                            </th>
+                            <th>
+                                职能中心
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                01/04/2012
+                            </td>
+                            <td>
+                                Default
+                            </td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                01/04/2012
+                            </td>
+                            <td>
+                                Approved
+                            </td>
+                        </tr>
+                        <tr class="error">
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                02/04/2012
+                            </td>
+                            <td>
+                                Declined
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                03/04/2012
+                            </td>
+                            <td>
+                                Pending
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                04/04/2012
+                            </td>
+                            <td>
+                                Call in to confirm
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pagination">
+                        <li>
+                            <a href="#">Prev</a>
+                        </li>
+                        <li>
+                            <a href="#">1</a>
+                        </li>
+                        <li>
+                            <a href="#">2</a>
+                        </li>
+                        <li>
+                            <a href="#">3</a>
+                        </li>
+                        <li>
+                            <a href="#">4</a>
+                        </li>
+                        <li>
+                            <a href="#">5</a>
+                        </li>
+                        <li>
+                            <a href="#">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="menu2" class="container tab-pane fade"><br>
             <h3>Menu 2</h3>
