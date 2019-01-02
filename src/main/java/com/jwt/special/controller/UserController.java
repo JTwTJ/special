@@ -107,5 +107,18 @@ public class UserController {
             return Result.fail("修改密码失败!");
         }
     }
+
+    /**
+     * 用户注销
+     * @param token
+     * @return
+     */
+    @NeedLoggedUser
+    @ResponseBody
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public Result<Boolean> logout(String token) {
+        loginUserInfo.clearUserInfo(token);
+        return Result.ok(Boolean.TRUE);
+    }
 }
 

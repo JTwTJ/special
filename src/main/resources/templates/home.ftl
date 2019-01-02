@@ -16,6 +16,7 @@
     <script>
         $(document).ready(function () {
             $.cookie("token", "${token! " "}", {expires:30*60});
+
         });
     </script>
 </head>
@@ -40,7 +41,7 @@
                                 <a data-toggle="modal" data-target="#editPwd">修改密码</a>
                             </li>
                             <li>
-                                <a href="/user/index">退出</a>
+                                <a onclick="logout()">退出</a>
                             </li>
                         </ul>
                     </div>
@@ -52,7 +53,7 @@
     <!-- Nav pills -->
     <ul class="nav nav-tabs" role="tablist" style="font-size: 20px">
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu1"">(CEO/董事长)督办表</a>
+            <a class="nav-link" data-toggle="tab" href="#menu1">(CEO/董事长)督办表</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#menu2">生日提醒</a>
@@ -100,8 +101,9 @@
                 </div>
             </div>
             <div class="row clearfix">
-                <div class="col-md-12 column" style="overflow: auto">
-                    <table class="table">
+                <div class="col-md-12 column">
+                    <div style="overflow: scroll">
+                    <table class="table" style="min-width:2000px;">
                         <thead>
                         <tr>
                             <th>
@@ -177,8 +179,6 @@
                             <td>
                                 Default
                             </td>
-                        </tr>
-                        <tr class="success">
                             <td>
                                 1
                             </td>
@@ -189,53 +189,45 @@
                                 01/04/2012
                             </td>
                             <td>
-                                Approved
+                                Default
                             </td>
-                        </tr>
-                        <tr class="error">
                             <td>
-                                2
+                                1
                             </td>
                             <td>
                                 TB - Monthly
                             </td>
                             <td>
-                                02/04/2012
+                                01/04/2012
                             </td>
                             <td>
-                                Declined
-                            </td>
-                        </tr>
-                        <tr class="warning">
-                            <td>
-                                3
+                                Default
                             </td>
                             <td>
-                                TB - Monthly
-                            </td>
-                            <td>
-                                03/04/2012
-                            </td>
-                            <td>
-                                Pending
-                            </td>
-                        </tr>
-                        <tr class="info">
-                            <td>
-                                4
+                                1
                             </td>
                             <td>
                                 TB - Monthly
                             </td>
                             <td>
-                                04/04/2012
+                                01/04/2012
                             </td>
                             <td>
-                                Call in to confirm
+                                Default
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                TB - Monthly
+                            </td>
+                            <td>
+                                01/04/2012
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    </div>
                     <ul class="pagination">
                         <li>
                             <a href="#">Prev</a>

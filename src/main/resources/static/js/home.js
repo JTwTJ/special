@@ -1,6 +1,7 @@
+
 /*
-     * 判断是登录账号和密码是否为空
-     */
+ * 判断是登录账号和密码是否为空
+ */
 function loginCheck() {
     var account = $("#account").val();
     var password = $("#password").val();
@@ -28,13 +29,26 @@ function updatePwd() {
         $("#span01").html("<font color='red'>两次密码不一致!</font>");
         return false;
     } else {
-        jQuery.post("/user/updatePassword", {"oldPwd": oldPwd, "newPwd": newPwd, "token": $.cookie("token")}, function (data) {
+        jQuery.post("/user/updatePassword", {
+            "oldPwd": oldPwd,
+            "newPwd": newPwd,
+            "token": $.cookie("token")
+        }, function (data) {
             if (data.ok) {
                 $("#span01").html("<font color='red'>修改成功!</font>");
                 return true;
             }
-            $("#span01").html("<font color='red'>"+data.error+"</font>");
+            $("#span01").html("<font color='red'>" + data.error + "</font>");
             return false;
         }, "json");
     }
+}
+/*注销用户登录*/
+function logout() {
+    var token = $.cookie("token");
+    jQuery.post("/user/logout", {"token": token}, function (data) {
+        if (data.ok) {
+            window.location.href = "/user/index";
+        }
+    }, "json");
 }
