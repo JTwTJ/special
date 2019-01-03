@@ -16,7 +16,17 @@
     <script>
         $(document).ready(function () {
             $.cookie("token", "${token! " "}", {expires:30*60});
+            jQuery.post("/links/queryCurrentUserSetUrl", {
+                "token": $.cookie("token")
+            }, function (data) {
+                var myArr = new Array();
+                myArr = data.result;
+                for (var i = 0; i<myArr.length;i++) {
+                    if (myArr[i].linkId == '001') {
 
+                    }
+                }
+            }, "json");
         });
     </script>
 </head>

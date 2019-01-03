@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jwt.special.dao.UserLinksMapper">
+    <resultMap id="baseResultMap" type="com.jwt.special.model.UserLinks">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="link_id" jdbcType="VARCHAR" property="linkId"/>
+        <result column="privilege" jdbcType="VARCHAR" property="privilege"/>
+    </resultMap>
+
+    <sql id="table_name">
+        special_user_links
+    </sql>
+    <select id="queryByUserId" resultMap="baseResultMap" parameterType="long">
+        select user_id, link_id, privilege
+        from <include refid="table_name"/>
+        where user_id = #{userId, jdbcType=BIGINT}
+    </select>
+</mapper>
