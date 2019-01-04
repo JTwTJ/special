@@ -1,6 +1,10 @@
 package com.jwt.special.dao;
 
+import com.jwt.special.model.Links;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author jiangwentao
@@ -8,5 +12,9 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface LinksMapper {
+
+    List<Links> findAll();
+
+    Links getById(@Param("linkId") String linkId);
 
 }

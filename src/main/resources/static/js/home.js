@@ -12,6 +12,7 @@ function loginCheck() {
     }
     return true;
 }
+/*修改密码*/
 function updatePwd() {
     var oldPwd = $("#oldPwd").val();
     var newPwd = $("#newPwd").val();
@@ -43,12 +44,22 @@ function updatePwd() {
         }, "json");
     }
 }
-/*注销用户登录*/
-function logout() {
-    var token = $.cookie("token");
-    jQuery.post("/user/logout", {"token": token}, function (data) {
-        if (data.ok) {
-            window.location.href = "/user/index";
-        }
-    }, "json");
-}
+    /*注销用户登录*/
+    function logout() {
+        var token = $.cookie("token");
+        jQuery.post("/user/logout", {"token": token}, function (data) {
+            if (data.ok) {
+                window.location.href = "/user/index";
+            }
+        }, "json");
+    }
+    /*生日模块*/
+    function birth() {
+        console.dir("hahahahahaha");
+        var token = $.cookie("token");
+        jQuery.post("/user/birth", {"token": token}, function (data) {
+            if (data.ok) {
+                window.location.href = "/templates/supervise-list";
+            }
+        }, "json");
+    }

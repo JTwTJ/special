@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jwt.special.dao.LinksMapper">
+    <resultMap id="baseResultMap" type="com.jwt.special.model.Links">
+        <id column="link_id" jdbcType="VARCHAR" property="linkId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="privilege" jdbcType="VARCHAR" property="privilege"/>
+        <result column="is_leaf" jdbcType="BIGINT" property="isLeaf"/>
+    </resultMap>
+    <sql id="table_name">
+        special_base_links
+    </sql>
+    <select id="findAll" resultMap="baseResultMap">
+        select link_id, name, parent_id, privilege, is_leaf
+        from <include refid="table_name"/>
+    </select>
+    <select id="getById" resultMap="baseResultMap">
+        select link_id, name, parent_id, privilege, is_leaf
+        from <include refid="table_name"/>
+        where link_id = #{linkId, jdbcType=VARCHAR}
+    </select>
 </mapper>

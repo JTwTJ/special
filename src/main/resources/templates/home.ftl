@@ -19,11 +19,50 @@
             jQuery.post("/links/queryCurrentUserSetUrl", {
                 "token": $.cookie("token")
             }, function (data) {
-                var myArr = new Array();
-                myArr = data.result;
-                for (var i = 0; i<myArr.length;i++) {
-                    if (myArr[i].linkId == '001') {
-
+                var menuArr  = new Array();
+                menuArr = data.result;
+                for (var i=0;i<menuArr.length;i++)
+                {
+                    switch (menuArr[i].linkId) {
+                        case "001":
+                            $("#001").show();
+                            for (var j=0;j<menuArr[i].privilege.length;j++){
+                                switch (menuArr[i].privilege[j].key) {
+                                    case "query":
+                                        $("#query").show();
+                                        break;
+                                    case "import":
+                                        $("#import").show();
+                                        break;
+                                    case "export":
+                                        $("#export").show();
+                                    case "delivery":
+                                        $("#delivery").show();
+                                        break;
+                                    case "add":
+                                        $("#add").show();
+                                        break;
+                                }
+                            }
+                            break;
+                        case "002":
+                            $("#002").show();
+                            break;
+                        case "003":
+                            $("#003").show();
+                            break;
+                        case "004":
+                            $("#004").show();
+                            break;
+                        case "005":
+                            $("#005").show();
+                            break;
+                        case "006":
+                            $("#006").show();
+                            break;
+                        case "007":
+                            $("#007").show();
+                            break;
                     }
                 }
             }, "json");
@@ -61,26 +100,26 @@
     </div>
     <br>
     <!-- Nav pills -->
-    <ul class="nav nav-tabs" role="tablist" style="font-size: 20px">
-        <li class="nav-item">
+    <ul id="menu" class="nav nav-tabs" role="tablist" style="font-size: 20px">
+        <li id="001" class="nav-item" style="display: none">
             <a class="nav-link" data-toggle="tab" href="#menu1">(CEO/董事长)督办表</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu2">生日提醒</a>
+        <li id="002" class="nav-item" style="display: none">
+            <a id="birth" class="nav-link" data-toggle="tab" <#--href="#menu2"--> onclick="birth()">生日提醒</a>
         </li>
-        <li class="nav-item">
+        <li id="003" class="nav-item" style="display: none">
             <a class="nav-link" data-toggle="tab" href="#menu2">库存管理</a>
         </li>
-        <li class="nav-item">
+        <li id="004" class="nav-item" style="display: none">
             <a class="nav-link" data-toggle="tab" href="#menu2">台账支出管理</a>
         </li>
-        <li class="nav-item">
+        <li id="005" class="nav-item" style="display: none">
             <a class="nav-link" data-toggle="tab" href="#menu2">台账收入管理</a>
         </li>
-        <li class="nav-item">
+        <li id="006" class="nav-item" style="display: none">
             <a class="nav-link" data-toggle="tab" href="#menu2">费用报销管理</a>
         </li>
-        <li class="nav-item">
+        <li id="007" class="nav-item" style="display: none">
             <a class="nav-link" data-toggle="tab" href="#menu2">系统设置</a>
         </li>
     </ul>
@@ -103,11 +142,11 @@
             <div class="op-area">
                 <span>查询结果:</span>
                 <div class="op-area-right">
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"> 查询</button>
-                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> 导入</button>
-                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 导出基本信息</button>
-                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span> 导出登记表</button>
-                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 新增</button>
+                    <button style="display: none" id="query" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"> 查询</button>
+                    <button style="display: none" id="import" type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> 导入</button>
+                    <button style="display: none" id="export" type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 导出基本信息</button>
+                    <button style="display: none" id="delivery" type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span> 导出登记表</button>
+                    <button style="display: none" id="add" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 新增</button>
                 </div>
             </div>
             <div class="row clearfix">

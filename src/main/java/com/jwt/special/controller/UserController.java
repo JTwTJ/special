@@ -120,5 +120,14 @@ public class UserController {
         loginUserInfo.clearUserInfo(token);
         return Result.ok(Boolean.TRUE);
     }
+
+    @NeedLoggedUser
+    @ResponseBody
+    @RequestMapping(value = "/birth", method = RequestMethod.POST)
+    public Result<Boolean> birthPage() {
+        System.out.println("hahahahah");
+        return Result.ok(Boolean.TRUE);
+    }
+
 }
 
