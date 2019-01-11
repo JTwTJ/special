@@ -69,7 +69,7 @@ public class UserController {
             loginUserInfo.setUserInfo(token, UserDto.convert(user));
             model.addAttribute("username", user.getUsername());
             model.addAttribute("token", token);
-            return "home";
+            return "index";
             /*return Result.ok(token);*/
         } else {
             model.addAttribute("msg", "密码错误!");
