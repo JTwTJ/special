@@ -59,6 +59,7 @@
 <script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="/static/js/plugins/multiselect/tree-multiselect.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <!-- 插件 scripts -->
 <script src="/static/js/plugins/toastr/toastr.min.js" async></script>
 <!---顶部弹出提示--->
@@ -67,6 +68,57 @@
 <script>
 
     $(document).ready(function () {
+        $.cookie("token", "${token! " "}", {expires:30*60});
+        jQuery.post("/links/queryCurrentUserSetUrl", {
+            "token": $.cookie("token")
+        }, function (data) {
+            var menuArr  = new Array();
+            menuArr = data.result;
+            for (var i=0;i<menuArr.length;i++)
+            {
+                switch (menuArr[i].linkId) {
+                    case "001":
+                        $("#001").show();
+                        for (var j=0;j<menuArr[i].privilege.length;j++){
+                            switch (menuArr[i].privilege[j].key) {
+                                case "query":
+                                    $("#query").show();
+                                    break;
+                                case "import":
+                                    $("#import").show();
+                                    break;
+                                case "export":
+                                    $("#export").show();
+                                case "delivery":
+                                    $("#delivery").show();
+                                    break;
+                                case "add":
+                                    $("#add").show();
+                                    break;
+                            }
+                        }
+                        break;
+                    case "002":
+                        $("#002").show();
+                        break;
+                    case "003":
+                        $("#003").show();
+                        break;
+                    case "004":
+                        $("#004").show();
+                        break;
+                    case "005":
+                        $("#005").show();
+                        break;
+                    case "006":
+                        $("#006").show();
+                        break;
+                    case "007":
+                        $("#007").show();
+                        break;
+                }
+            }
+        }, "json");
         function a() {
             $("select#demo1").treeMultiselect(c)
         }
@@ -82,64 +134,6 @@
         };
         a()
     });
-
-    /**        
-    $('#my_multi_select3').multiSelect({
-     selectableHeader: "<div class='custom-header '><h4>未开通城市<small>（列表中点击即可开通）</small></h4></div><input type='text' class='form-control search-input' autocomplete='off' placeholder='搜索城市...'>",
-     selectionHeader: "<div class='custom-header '><h4 class='text-navy'>已开通城市</h4></div><input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-
-     selectableOptgroup: true,
-     afterInit: function (ms) {
-
-     var that = this,
-     $selectableSearch = that.$selectableUl.prev(),
-     $selectionSearch = that.$selectionUl.prev(),
-
-     selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-     selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
-
-     that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-     .on('keydown', function (e) {
-     if (e.which === 40) {
-     that.$selectableUl.focus();
-     return false;
-     }
-     });
-
-     that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-     .on('keydown', function (e) {
-     if (e.which == 40) {
-     that.$selectionUl.focus();
-     return false;
-     }
-     });
-     $('.ms-list').slimScroll({
-     height: '500px',
-     railVisible: true,
-     color:"#65cea7",
-     opacity:.8,
-     size: '4px',
-     borderRadius: '0', //滚动条圆角
-     railBorderRadius: '0',//轨道圆角
-
-     distance:0,
-     allowPageScroll: true,
-     alwaysVisible: false
-     });
-     },
-     afterSelect: function (values) {
-     this.qs1.cache();
-     this.qs2.cache();
-     toastr.success('本次开通的城市！'+values, '城市开通成功！');
-     },
-     afterDeselect: function (values) {
-     this.qs1.cache();
-     this.qs2.cache();
-     toastr.success('本次删除的城市！'+values, '城市成功删除！');
-     }
-     }) **/
-
-
 </script>
 </body>
 </html>

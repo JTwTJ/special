@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 /**
@@ -54,7 +55,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String userLogin(HttpServletRequest request, Model model, @RequestParam(value = "account") String account,
+    public String userLogin(HttpServletRequest request, HttpSession session, Model model, @RequestParam(value = "account") String account,
                             @RequestParam(value = "password") String password) {
         account = account.trim();
         password = password.trim();
@@ -67,8 +68,9 @@ public class UserController {
         if (password.equals(user.getPassword())) {
             String token = UUID.randomUUID().toString().replaceAll("-", "");
             loginUserInfo.setUserInfo(token, UserDto.convert(user));
-            model.addAttribute("username", user.getUsername());
-            model.addAttribute("token", token);
+            session.setAttribute("username", user.getUsername());
+            /*model.addAttribute("token", token);*/
+            session.setAttribute("token", token);
             return "index";
             /*return Result.ok(token);*/
         } else {

@@ -1,5 +1,6 @@
 package com.jwt.special.controller;
 
+import com.jwt.special.web.NeedLoggedUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Slf4j
 public class MainController {
 
-    @RequestMapping(value = "leftnav", method = RequestMethod.GET)
+    @NeedLoggedUser
+    @RequestMapping(value = {"/home"})
+    String home() {
+        return "index";
+    }
+    @RequestMapping(value = "/leftnav", method = RequestMethod.GET)
     String leftnav() {
         return "leftnav";
     }
 
-    @RequestMapping(value = "topnav", method = RequestMethod.GET)
+    @RequestMapping(value = "/topnav", method = RequestMethod.GET)
     String topnav() {
         return "topnav";
     }

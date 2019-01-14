@@ -1,5 +1,5 @@
 //加载左侧导航
-$("#leftnav").load('/leftnav',function(response,status,xhr){
+$("#leftnav").load('/leftnav', function(response,status,xhr){
     if(status=='success'){
         //加载完成执行导航组件
         $('#side-menu').metisMenu();
@@ -256,3 +256,6 @@ function SmoothlyMenu() {
         $('#side-menu').removeAttr('style');
     }
 };
+$("#home").click(function () {
+    console.dir("hahahahhaah");
+});
