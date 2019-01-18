@@ -1,10 +1,16 @@
 package com.jwt.special.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.jwt.special.model.Transact;
+import com.jwt.special.model.dto.TransactDto;
+import com.jwt.special.model.request.TransactQueryParam;
+import com.jwt.special.service.TransactService;
+import com.jwt.special.web.NeedLoggedUser;
 import com.jwt.special.web.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author jiangwentao
@@ -15,5 +21,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class TransactController {
 
-    /*public Result<PageInfo>*/
+    @Autowired
+    private TransactService transactService;
+
+    @NeedLoggedUser
+    @ResponseBody
+    @RequestMapping(value = "/pager", method = RequestMethod.POST)
+    public Result<PageInfo<Transact>> pager(TransactQueryParam transactQueryParam) throws Exception {
+        try {
+            PageInfo<Transact> pageInfo = transactService.pager(transactQueryParam);
+            return Result.ok(pageInfo);
+        } catch (Exception e) {
+            log.warn("pager fail :{}",e);
+            return Result.fail("分页查询失败");
+        }
+    }
 }

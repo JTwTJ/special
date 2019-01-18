@@ -32,10 +32,6 @@ public class User implements Serializable {
     private Long departmentId;
     /** 部门名称 **/
     private String departmentName;
-    /** 是否开通后台系统：0=未开通；1=已开通 **/
-    private boolean backSystem;
-    /** 是否开通前台系统：0=未开通；1=已开通 **/
-    private boolean frontSystem;
     /** 是否删除 **/
     @JsonIgnore
     private boolean isDel;

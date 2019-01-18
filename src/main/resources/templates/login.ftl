@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/login.css">
     <script src="/static/js/home.js"></script>
-    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
-    <#--<script src="/static/js/jquery-3.3.1.min.js"></script>-->
-    <#--<script src="/static/js/bootstrap.min.js"></script>-->
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <#--<script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>-->
+    <script src="/static/js/jquery-2.1.1.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <#--<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 <div class="container">

@@ -63,20 +63,16 @@ public class UserController {
         if (user == null) {
             model.addAttribute("msg", "账号不存在！");
             return "login";
-            /*return Result.fail("账号不存在!");*/
         }
         if (password.equals(user.getPassword())) {
             String token = UUID.randomUUID().toString().replaceAll("-", "");
             loginUserInfo.setUserInfo(token, UserDto.convert(user));
             session.setAttribute("username", user.getUsername());
-            /*model.addAttribute("token", token);*/
             session.setAttribute("token", token);
             return "index";
-            /*return Result.ok(token);*/
         } else {
             model.addAttribute("msg", "密码错误!");
             return "login";
-            /*return  Result.fail("密码错误!");*/
         }
     }
 

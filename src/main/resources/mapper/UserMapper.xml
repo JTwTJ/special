@@ -10,8 +10,6 @@
         <result column="state" property="state" jdbcType="VARCHAR" />
         <result column="departmentId" property="departmentId" jdbcType="BIGINT" />
         <result column="departmentName" property="departmentName" jdbcType="VARCHAR" />
-        <result column="front_system" property="frontSystem" jdbcType="BIT" />
-        <result column="back_system" property="backSystem" jdbcType="BIT" />
         <result column="is_del" property="isDel" jdbcType="BIT" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -21,7 +19,7 @@
     </sql>
     <sql id="base_column_list">
         user_id userId, account account, password password, mobile mobile, username username, state state,
-        departmentId departmentId, departmentName departmentName, back_system backSystem, front_system frontSystem,
+        departmentId departmentId, departmentName departmentName,
         is_del isDel, create_time createTime, update_time updateTime
     </sql>
     <update id="updatePassword">

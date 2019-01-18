@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwt.special.dao.TransactMapper">
+  <resultMap id="BaseResultMap" type="com.jwt.special.model.Transact">
+    <id column="transact_id" jdbcType="BIGINT" property="transactId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_time" jdbcType="DATE" property="fileTime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="plate" jdbcType="VARCHAR" property="plate" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="functions" jdbcType="VARCHAR" property="functions" />
+    <result column="leader" jdbcType="VARCHAR" property="leader" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="handle_time" jdbcType="DATE" property="handleTime" />
+    <result column="handle_idea" jdbcType="VARCHAR" property="handleIdea" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    transact_id, file_name, file_time, phone, plate, company_name, functions, leader, 
+    remark, handle_time, handle_idea, `operator`, create_time, update_time
+  </sql>
+  <sql id="table_name">
+    special_transact
+  </sql>
+
+  <select id="pager" parameterType="object" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from <include refid="table_name"/>
+    <where>
+      1 = 1
+      <if test="plate != null and plate != ''">
+        and plate = #{plate,jdbcType=VARCHAR}
+      </if>
+      <if test="companyName != null and companyName != ''">
+        and complany_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="functions != null and functions != ''">
+        and functions = #{functions,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null and phone != ''">
+        and phone like concat('%',#{phone,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="fileName != null and fileName != ''">
+        and file_name like concat('%',#{fileName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="leader != null and leader != ''">
+        and leader = #{leader,jdbcType=VARCHAR}
+      </if>
+      <if test="receiptStartTime != null and receiptStartTime != ''">
+        AND DATE_FORMAT(file_time,'%Y-%m-%d') &gt;= #{receiptStartTime}
+      </if>
+      <if test="receiptEndTime != null and receiptEndTime != ''">
+        AND DATE_FORMAT(file_time,'%Y-%m-%d') &lt;= #{receiptEndTime}
+      </if>
+      <if test="handleStartTime != null and handleStartTime != ''">
+        AND DATE_FORMAT(handle_time,'%Y-%m-%d') &gt;= #{handleStartTime}
+      </if>
+      <if test="handleEndTime != null and handleEndTime != ''">
+        AND DATE_FORMAT(handle_time,'%Y-%m-%d') &lt;= #{handleEndTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from special_transact
+    where transact_id = #{transactId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from special_transact
+    where transact_id = #{transactId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jwt.special.model.Transact">
+    insert into special_transact (transact_id, file_name, file_time, 
+      phone, plate, company_name, 
+      functions, leader, remark, 
+      handle_time, handle_idea, `operator`, 
+      create_time, update_time)
+    values (#{transactId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, #{fileTime,jdbcType=DATE}, 
+      #{phone,jdbcType=VARCHAR}, #{plate,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
+      #{functions,jdbcType=VARCHAR}, #{leader,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{handleTime,jdbcType=DATE}, #{handleIdea,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jwt.special.model.Transact">
+    insert into special_transact
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transactId != null">
+        transact_id,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="fileTime != null">
+        file_time,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="plate != null">
+        plate,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="functions != null">
+        functions,
+      </if>
+      <if test="leader != null">
+        leader,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="handleTime != null">
+        handle_time,
+      </if>
+      <if test="handleIdea != null">
+        handle_idea,
+      </if>
+      <if test="operator != null">
+        `operator`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transactId != null">
+        #{transactId,jdbcType=BIGINT},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileTime != null">
+        #{fileTime,jdbcType=DATE},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="plate != null">
+        #{plate,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="functions != null">
+        #{functions,jdbcType=VARCHAR},
+      </if>
+      <if test="leader != null">
+        #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null">
+        #{handleTime,jdbcType=DATE},
+      </if>
+      <if test="handleIdea != null">
+        #{handleIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwt.special.model.Transact">
+    update special_transact
+    <set>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileTime != null">
+        file_time = #{fileTime,jdbcType=DATE},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="plate != null">
+        plate = #{plate,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="functions != null">
+        functions = #{functions,jdbcType=VARCHAR},
+      </if>
+      <if test="leader != null">
+        leader = #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null">
+        handle_time = #{handleTime,jdbcType=DATE},
+      </if>
+      <if test="handleIdea != null">
+        handle_idea = #{handleIdea,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        `operator` = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where transact_id = #{transactId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwt.special.model.Transact">
+    update special_transact
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_time = #{fileTime,jdbcType=DATE},
+      phone = #{phone,jdbcType=VARCHAR},
+      plate = #{plate,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      functions = #{functions,jdbcType=VARCHAR},
+      leader = #{leader,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      handle_time = #{handleTime,jdbcType=DATE},
+      handle_idea = #{handleIdea,jdbcType=VARCHAR},
+      `operator` = #{operator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where transact_id = #{transactId,jdbcType=BIGINT}
+  </update>
+</mapper>

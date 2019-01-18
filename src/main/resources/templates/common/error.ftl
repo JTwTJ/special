@@ -18,7 +18,7 @@
 					<p>
 						<b>或者您可以点击下面这个小按钮：</b>
 					</p>
-					<a href="/index" class="btn btn-large btn-info"><i class="icon-home icon-white"></i> 返回首页</a>
+					<a href="/user/index" class="btn btn-large btn-info"><i class="icon-home icon-white"></i> 返回首页</a>
 				</div>
 				<br />
 

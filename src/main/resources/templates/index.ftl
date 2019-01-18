@@ -51,6 +51,39 @@
         </div>
         <!---右侧内容区结束----->
     </div>
+    <#--修改密码模态框-->
+    <div class="modal fade" id="editPwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        修改密码
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div style="width: 568px; height: 255px"><br>
+                        <br>
+                        <input id="oldPwd" name="oldpwd" class="form-control" type="password" placeholder="原密码" style="width: 350px; margin-left: 90px"/>
+                        <br>
+                        <input id="newPwd" name="newpwd" class="form-control" type="password" placeholder="新密码" style="width: 350px; margin-left: 90px"/>
+                        <br>
+                        <input id="confirmPwd" name="confirmpwd" class="form-control" type="password" placeholder="确认密码" style="width: 350px; margin-left: 90px">
+                        <span id="span01" style="margin-left: 90px"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="return updatePwd()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- 全局 scripts -->
 <script src="/static/js/jquery-2.1.1.js"></script>
 <script src="/static/js/bootstrap.js"></script>
@@ -79,24 +112,6 @@
                 switch (menuArr[i].linkId) {
                     case "001":
                         $("#001").show();
-                        for (var j=0;j<menuArr[i].privilege.length;j++){
-                            switch (menuArr[i].privilege[j].key) {
-                                case "query":
-                                    $("#query").show();
-                                    break;
-                                case "import":
-                                    $("#import").show();
-                                    break;
-                                case "export":
-                                    $("#export").show();
-                                case "delivery":
-                                    $("#delivery").show();
-                                    break;
-                                case "add":
-                                    $("#add").show();
-                                    break;
-                            }
-                        }
                         break;
                     case "002":
                         $("#002").show();
