@@ -101,7 +101,7 @@
 <script>
 
     $(document).ready(function () {
-        $.cookie("token", "${token! " "}", {expires:30*60});
+        $.cookie("token", "${token! " "}", {path: '/'});
         jQuery.post("/links/queryCurrentUserSetUrl", {
             "token": $.cookie("token")
         }, function (data) {

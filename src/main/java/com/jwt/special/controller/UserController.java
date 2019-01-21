@@ -1,7 +1,6 @@
 package com.jwt.special.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jwt.special.component.LoginUserInfo;
 import com.jwt.special.model.User;
 import com.jwt.special.model.dto.UserDto;
@@ -41,8 +40,9 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/index")
-    public String sendToLogin() {
+    public String sendToLogin(Model model) {
         log.info("进入登录页面");
+        model.addAttribute("name","dear");
         return "login";
     }
 

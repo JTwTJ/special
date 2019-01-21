@@ -287,22 +287,24 @@ function updatePwd() {
             return false;
         }, "json");
     }
-};
+}
 /*注销用户登录*/
 function logout() {
     jQuery.post("/user/logout", {"token": $.cookie("token")}, function (data) {
         if (data.ok) {
+            $.cookie("token", null);
             window.location.href = "/user/index";
         }
     }, "json");
-};
+}
 /*跳转督办页面*/
-function supervise() {
+/*function supervise() {
+    ${token}}
     jQuery.post("/transact/list",{token: $.cookie("token")}, function (data) {
         if (data.ok) {
             window.location.href="/templates/view/supervise/supervise-list.ftl"
         }
     },"json")
-};
+};*/
 
 

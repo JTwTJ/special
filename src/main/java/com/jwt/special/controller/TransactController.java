@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @author jiangwentao
  * @date 2019/1/2 0002 下午 2:57
@@ -27,9 +29,10 @@ public class TransactController {
     @NeedLoggedUser
     @ResponseBody
     @RequestMapping(value = "/pager", method = RequestMethod.POST)
-    public Result<PageInfo<Transact>> pager(TransactQueryParam transactQueryParam) throws Exception {
+    public Result<PageInfo<Transact>> pager(TransactQueryParam transactQueryParam, HttpSession session) throws Exception {
         try {
             PageInfo<Transact> pageInfo = transactService.pager(transactQueryParam);
+            session.setAttribute("page", pageInfo);
             return Result.ok(pageInfo);
         } catch (Exception e) {
             log.warn("pager fail :{}",e);

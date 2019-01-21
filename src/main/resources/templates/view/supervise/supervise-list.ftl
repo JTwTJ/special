@@ -104,25 +104,22 @@
                                 </thead>
                                 <tbody>
                                     <#if page?? && page.list?? && (page.list?size > 0) >
-                                    <h1>hahahahhaha</h1>
-                                        <#--<#list page.list as n>
+                                        <#list page.list as n>
                                             <td>编辑</td>
-                                            <td>${n.fileName }</td>
-                                            <td>${n.fileTime }</td>
-                                            <td>${n.phone }</td>
-                                            <td>${n.plate }</td>
-                                            <td>${n.companyName }</td>
-                                            <td>${n.functions }</td>
-                                            <td>${n.leader }</td>
-                                            <td>${n.remark }</td>
-                                            <td>${n.handleTime }</td>
-                                            <td>${n.handleIdea }</td>
-                                            <td>${n.leader }</td>
-                                            <td>${n.operator }</td>
-                                            <td>${n.leader }</td>
-                                            <td>${n.createTime }</td>
-                                            <td>${n.updateTime }</td>
-                                        </#list>-->
+                                            <td>${n.fileName! " " }</td>
+                                            <td>${n.fileTime?string("yyyy-MM-dd")}</td>
+                                            <td>${n.phone! " " }</td>
+                                            <td>${n.plate! " " }</td>
+                                            <td>${n.companyName! " " }</td>
+                                            <td>${n.functions! " " }</td>
+                                            <td>${n.leader! " " }</td>
+                                            <td>${n.remark! " " }</td>
+                                            <td>${n.handleTime?string("yyyy-MM-dd")}</td>
+                                            <td>${n.handleIdea! " " }</td>
+                                            <td>${n.operator! " " }</td>
+                                            <td>${n.createTime?string("yyyy-MM-dd") }</td>
+                                            <td>${n.updateTime?string("yyyy-MM-dd") }</td>
+                                        </#list>
                                     </#if>
                                 <#--<tr>
                                     <td>
@@ -202,6 +199,38 @@
     </div>
     <!---右侧内容区结束----->
 </div>
+<div class="modal fade" id="editPwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改密码
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div style="width: 568px; height: 255px"><br>
+                    <br>
+                    <input id="oldPwd" name="oldpwd" class="form-control" type="password" placeholder="原密码" style="width: 350px; margin-left: 90px"/>
+                    <br>
+                    <input id="newPwd" name="newpwd" class="form-control" type="password" placeholder="新密码" style="width: 350px; margin-left: 90px"/>
+                    <br>
+                    <input id="confirmPwd" name="confirmpwd" class="form-control" type="password" placeholder="确认密码" style="width: 350px; margin-left: 90px">
+                    <span id="span01" style="margin-left: 90px"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="return updatePwd()">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 全局 scripts -->
 <script src="/static/js/jquery-2.1.1.js"></script>
 <script src="/static/js/bootstrap.js"></script>
@@ -220,7 +249,7 @@
 
     $(document).ready(function () {
         jQuery.post("/links/queryCurrentUserSetUrl", {
-            "token": /*$.cookie("token")*/"${token! " "}"
+            "token": $.cookie("token")
         }, function (data) {
             var menuArr  = new Array();
             menuArr = data.result;
@@ -268,18 +297,18 @@
                         break;
                 }
             }
-        }, "json");
+        }, "json",false);
         jQuery.post("/transact/pager",
                 {
-                    "token": /*$.cookie("token")*/"${token! " "}",
+                    "token": $.cookie("token"),
                     "pageNo": 1,
                     "pageSize": 10
                 }, function (data) {
                     var page = data.result;
-                    console.dir(page.list)
-                    $("#ibox").html(page);
+                    console.dir(page)
+                    /*$("#ibox").html(page);*/
         }, "json");
-        function a() {
+        /*function a() {
             $("select#demo1").treeMultiselect(c)
         };
 
@@ -292,7 +321,7 @@
             showSectionOnSelected:true,//Show section name on the selected items
             startCollapsed:true
         };
-        a()
+        a()*/
     });
 </script>
 </body>
