@@ -38,8 +38,7 @@
                     <img src="/static/img/home.png">
                 </div><br>
                 <div style="text-align: center">
-                    <!--/*@thymesVar id="username" type="java.lang.String"*/-->
-                    <h4 th:text="'Hi'+${username}+'欢迎登录！'"></h4>
+                    <h4 th:text="'Hi! '+ ${session.username} + '欢迎登录!'"></h4>
                 </div>
 
             </div>
@@ -96,13 +95,12 @@
 
 <section>
     <script th:inline="javascript">
-        var xx = [${token}];
         $(document).ready(function () {
-            $.cookie("token", xx, {path: '/'});
+            $.cookie("token", [[${session.token}]], {path: '/'});
             jQuery.post("/links/queryCurrentUserSetUrl", {
                 "token": $.cookie("token")
             }, function (data) {
-                var menuArr  = new Array();
+                var menuArr;
                 menuArr = data.result;
                 for (var i=0;i<menuArr.length;i++)
                 {

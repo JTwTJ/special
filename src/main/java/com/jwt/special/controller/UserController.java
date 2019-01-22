@@ -40,9 +40,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/index")
-    public String sendToLogin(Model model) {
+    public String sendToLogin() {
         log.info("进入登录页面");
-        model.addAttribute("name","dear");
         return "login";
     }
 
@@ -69,6 +68,7 @@ public class UserController {
             loginUserInfo.setUserInfo(token, UserDto.convert(user));
             session.setAttribute("username", user.getUsername());
             session.setAttribute("token", token);
+            /*model.addAttribute("token", token);*/
             return "index";
         } else {
             model.addAttribute("msg", "密码错误!");

@@ -1,3 +1,5 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <div class="sidebar-scroll">
     <div class="logo">
         <a href="#"><img src="/static/images/logo_icon.png" alt="">后台管理</a>
@@ -9,8 +11,8 @@
                     <a href=""><img src="/static/images/logo_icon.png" alt="">后台管理</a>
                 </div>
                 <ul class="nav metismenu" id="side-menu">
-                    <li id="home" class="active"><a href="/home"><i class="fa fa-home"></i> <span class="nav-label">首页</span></a></li>
-                    <li id="001" style="display: none"><a href="/supervise"><i class="fa fa-table"></i> <span class="nav-label">(CEO/董事长)督办表</span></a></li>
+                    <li id="home" class="active"><a th:href="@{/home}"><i class="fa fa-home"></i> <span class="nav-label">首页</span></a></li>
+                    <li id="001" style="display: none"><a th:href="@{/transact/pager}"><i class="fa fa-table"></i> <span class="nav-label">(CEO/董事长)督办表</span></a></li>
                     <li id="002" style="display: none"><a href="#"><i class="fa fa-calendar-o"></i> <span class="nav-label">生日提醒</span></a></li>
                     <li id="003" style="display: none"><a href="#"><i class="fa fa-gift"></i> <span class="nav-label">库存管理 </span></a></li>
                     <li id="004" style="display: none"><a href="#"><i class="fa fa-minus"></i> <span class="nav-label">台账支出管理 </span></a></li>
@@ -29,7 +31,7 @@
                     </li>
                 </ul>
             </div>
-    </div>
     </ul>
 </div>
 </div>
+</html>

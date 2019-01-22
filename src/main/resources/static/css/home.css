@@ -48,3 +48,57 @@
 .ts-table-ctt tr th .width-230 {
     width: 230px;
 }
+.ts-table-ops{
+    position: relative;
+    height: 19px;
+}
+.ts-table-ops ul{
+    position: absolute;
+    top: -5px;
+    left: -10px;
+    width: 70px;
+    height: 27px;
+    overflow: hidden;
+}
+.ts-table-ops ul li{
+    padding-left: 10px;
+    color: #529dfa;
+    height: 27px;
+    line-height: 27px;
+}
+.ts-table-ops ul li a{
+    display: inline-block;
+    color: #529dfa;
+}
+.ts-table-ops ul li:hover{
+    background-color: #fff;
+    color: #fff;
+}
+.ts-table-ops ul li a:hover{
+    color: #fff;
+}
+.ts-table-ops ul:hover{
+    height: auto;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    z-index: 1;
+}
+.ts-table-ops ul:hover .iconfont{
+    display: none;
+}
+.ts-table-ops ul li .iconfont{
+    font-size: 11px;
+    display: inline-block;
+}
+.ts-table-ops ul li:hover{
+    display: block;
+    background-color: #529dfa;
+    color: #fff;
+}
+.ts-table-ops ul li:hover a{
+    color: #fff;
+}
+.ts-table-ops ul li a:hover{
+    color: #fff;
+}

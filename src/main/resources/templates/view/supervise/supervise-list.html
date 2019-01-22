@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>督办列表</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keyword" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="/static/css/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="/static/css/plugins/multiselect/tree-multiselect.min.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/home.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css">
+</head>
+<body class="fixed-sidebar">
+<div id="wrapper">
+    <!----左侧导航开始----->
+    <nav class="navbar-default navbar-static-side animated fadeInLeft" role="navigation" id="leftnav"></nav>
+    <!----左侧导航结束----->
+
+    <!---右侧内容区开始---->
+    <div id="page-wrapper" class="gray-bg">
+        <!---顶部状态栏 star-->
+        <div class="row ">
+            <nav class="navbar navbar-fixed-top" role="navigation" id="topnav"></nav>
+        </div>
+        <!---顶部状态栏 end-->
+
+        <!--------当前位置----->
+
+
+        <!-----内容区域---->
+        <div class="wrapper wrapper-content">
+            <div id="menu1"><br>
+                <div class="content-header">
+                    任务督办表
+                </div>
+                <div class="ibox-content m-b-sm border-bottom">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" class="input-sm form-control" id="keywords" name="keywords" value="" placeholder="新闻标题"> <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" id="queryNewsBtn">查询</button></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="op-area">
+                    <span>查询结果:</span>
+                    <div class="op-area-right">
+                        <button style="display: none" id="query" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                        <button style="display: none" id="import" type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> 导入</button>
+                        <button style="display: none" id="export" type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 导出基本信息</button>
+                        <button style="display: none" id="delivery" type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span> 导出登记表</button>
+                        <button style="display: none" id="add" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> 新增</button>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <div class="table-responsive">
+                            <table class="table table-centerbody table-striped table-condensed text-nowrap" id="editable-sample">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        操作
+                                    </th>
+                                    <th>
+                                        文件名称
+                                    </th>
+                                    <th>
+                                        收文日期
+                                    </th>
+                                    <th>
+                                        电话
+                                    </th>
+                                    <th>
+                                        板块
+                                    </th>
+                                    <th>
+                                        公司名称
+                                    </th>
+                                    <th>
+                                        职能中心
+                                    </th>
+                                    <th>
+                                        流转部门(领导)
+                                    </th>
+                                    <th>
+                                        备注
+                                    </th>
+                                    <th>
+                                        批示日期
+                                    </th>
+                                    <th>
+                                        杜总批示意见
+                                    </th>
+                                    <th>
+                                        最后一次修改人名字
+                                    </th>
+                                    <th>
+                                        创建时间
+                                    </th>
+                                    <th>
+                                        修改时间
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item:${pageList}">
+                                    <td>
+                                        <div class="ts-table-ops" style="width: 60px">
+                                            <ul style="margin: 0px; padding: 0px">
+                                                <li style="list-style-type:none;">
+                                                    <a href="">编辑</a>
+                                                    <span class="caret"></span>
+                                                </li>
+
+                                                <li style="list-style-type:none;">
+                                                    <a href="">删除</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td th:text="${item.getFileName()}"></td>
+                                    <td th:text="${#dates.format(item.getFileTime(), 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${item.getPhone()}"></td>
+                                    <td th:text="${item.getPlate()}"></td>
+                                    <td th:text="${item.getCompanyName()}"></td>
+                                    <td th:text="${item.getFunctions()}"></td>
+                                    <td th:text="${item.getLeader()}"></td>
+                                    <td th:text="${item.getRemark()}"></td>
+                                    <td th:text="${#dates.format(item.getHandleTime(), 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${item.getHandleIdea()}"></td>
+                                    <td th:text="${item.getOperator()}"></td>
+                                    <td th:text="${#dates.format(item.getCreateTime(), 'yyyy-MM-dd mm:ss')}"></td>
+                                    <td th:text="${#dates.format(item.getUpdateTime(), 'yyyy-MM-dd mm:ss')}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li><a>共<span th:text="${total}" class="red">1</span>条</a></li>
+
+                                    <li th:class="${isFirstPage} ? 'disabled'">
+                                        <a th:href="@{${'/transact/pager'}}">首页</a>
+                                    </li>
+
+                                    <li th:class="${isFirstPage} ? 'disabled'">
+                                        <a th:href="@{${'/transact/pager'}(pageNum=${pageNum - 1},pageSize=${pageSize})}">上页</a>
+                                    </li>
+
+                                    <li th:each="page : ${navigatePageNum}"
+                                        th:class="${page == pageNum} ? 'active'">
+                                        <a th:href="@{${'/transact/pager'}(pageNum=${page},pageSize=${pageSize})}"  th:text="${page}"></a>
+                                    </li>
+
+                                    <li th:class="${isLastPage} ? 'disabled'">
+                                        <a th:href="@{${'/transact/pager'}(pageNum=${pageNum+1},pageSize=${pageSize})}">下页</a>
+                                    </li>
+
+                                    <li th:class="${isLastPage} ? 'disabled'">
+                                        <a th:href="@{${'/transact/pager'}(pageNum=${totalPages},pageSize=${pageSize})}">尾页</a>
+                                    </li>
+
+                                    <li><a th:text="'共' + ${totalPages} + '页'">共1页</a></li>
+
+                                    <!--<li><input type="number" class="input change-page-num" style="width:100px; margin: 0px;"
+                                               th:value="${pageNum}"/></li>
+                                    <li>
+                                        <button class="btn btn-info" type="button"
+                                                th:onclick="'doSearch($(\'.change-page-num\').val())'">
+                                            跳转
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <select title="显示条数" class="input-lg" style="width:60px;"
+                                                onchange="changePageSize('good_form', this.value);">
+                                            <option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+                                                    th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+                                        </select>
+                                    </li>-->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-----内容结束----->
+    </div>
+    <!---右侧内容区结束----->
+</div>
+<div class="modal fade" id="editPwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改密码
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div style="width: 568px; height: 255px"><br>
+                    <br>
+                    <input id="oldPwd" name="oldpwd" class="form-control" type="password" placeholder="原密码" style="width: 350px; margin-left: 90px"/>
+                    <br>
+                    <input id="newPwd" name="newpwd" class="form-control" type="password" placeholder="新密码" style="width: 350px; margin-left: 90px"/>
+                    <br>
+                    <input id="confirmPwd" name="confirmpwd" class="form-control" type="password" placeholder="确认密码" style="width: 350px; margin-left: 90px">
+                    <span id="span01" style="margin-left: 90px"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="return updatePwd()">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局 scripts -->
+<script src="/static/js/jquery-2.1.1.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/wuling.js"></script>
+<script src="/static/js/plugins/pace/pace.min.js"></script>
+<script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/static/js/plugins/multiselect/tree-multiselect.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<!-- 插件 scripts -->
+<script src="/static/js/plugins/toastr/toastr.min.js" async></script>
+<!---顶部弹出提示--->
+
+
+<script>
+
+    $(document).ready(function () {
+        jQuery.post("/links/queryCurrentUserSetUrl", {
+            "token": $.cookie("token")
+        }, function (data) {
+            var menuArr;
+            menuArr = data.result;
+            for (var i=0;i<menuArr.length;i++)
+            {
+                switch (menuArr[i].linkId) {
+                    case "001":
+                        $("#001").show();
+                        for (var j=0;j<menuArr[i].privilege.length;j++){
+                            switch (menuArr[i].privilege[j].key) {
+                                case "query":
+                                    $("#query").show();
+                                    break;
+                                case "import":
+                                    $("#import").show();
+                                    break;
+                                case "export":
+                                    $("#export").show();
+                                case "delivery":
+                                    $("#delivery").show();
+                                    break;
+                                case "add":
+                                    $("#add").show();
+                                    break;
+                            }
+                        }
+                        break;
+                    case "002":
+                        $("#002").show();
+                        break;
+                    case "003":
+                        $("#003").show();
+                        break;
+                    case "004":
+                        $("#004").show();
+                        break;
+                    case "005":
+                        $("#005").show();
+                        break;
+                    case "006":
+                        $("#006").show();
+                        break;
+                    case "007":
+                        $("#007").show();
+                        break;
+                }
+            }
+        }, "json",false)
+    });
+</script>
+</body>
+</html>
