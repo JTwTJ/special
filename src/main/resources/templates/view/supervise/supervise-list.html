@@ -145,7 +145,7 @@
                                     <a th:href="@{${'/transact/pager'}(plate=${form.getPlate()},
                                     companyName=${form.getCompanyName()},functions=${form.getFunctions()},
                                     phone=${form.getPhone()},fileName=${form.getFileName()},
-                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    leader=${form.getLeader()},receiptStartTime=${form.getReceiptStartTime()},
                                     receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
                                     handleEndTime=${form.getHandleEndTime()})}">首页</a>
                                 </li>
@@ -155,7 +155,7 @@
                                     plate=${form.getPlate()},companyName=${form.getCompanyName()},
                                     functions=${form.getFunctions()},phone=${form.getPhone()},
                                     fileName=${form.getFileName()},leader=${form.getLeader()},
-                                    receiptStratTime=${form.getReceiptStartTime()},receiptEndTime=${form.getReceiptEndTime()},
+                                    receiptStartTime=${form.getReceiptStartTime()},receiptEndTime=${form.getReceiptEndTime()},
                                     handleStartTime=${form.getHandleStartTime()},handleEndTime=${form.getHandleEndTime()})}">上页</a>
                                 </li>
 
@@ -164,7 +164,7 @@
                                     <a th:href="@{${'/transact/pager'}(pageNum=${page},pageSize=${pageSize},plate=${form.getPlate()},
                                     companyName=${form.getCompanyName()},functions=${form.getFunctions()},
                                     phone=${form.getPhone()},fileName=${form.getFileName()},
-                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    leader=${form.getLeader()},receiptStartTime=${form.getReceiptStartTime()},
                                     receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
                                     handleEndTime=${form.getHandleEndTime()})}"  th:text="${page}"></a>
                                 </li>
@@ -173,7 +173,7 @@
                                     <a th:href="@{${'/transact/pager'}(pageNum=${pageNum+1},pageSize=${pageSize},plate=${form.getPlate()},
                                     companyName=${form.getCompanyName()},functions=${form.getFunctions()},
                                     phone=${form.getPhone()},fileName=${form.getFileName()},
-                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    leader=${form.getLeader()},receiptStartTime=${form.getReceiptStartTime()},
                                     receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
                                     handleEndTime=${form.getHandleEndTime()})}">下页</a>
                                 </li>
@@ -182,7 +182,7 @@
                                     <a th:href="@{${'/transact/pager'}(pageNum=${totalPages},pageSize=${pageSize},plate=${form.getPlate()},
                                     companyName=${form.getCompanyName()},functions=${form.getFunctions()},
                                     phone=${form.getPhone()},fileName=${form.getFileName()},
-                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    leader=${form.getLeader()},receiptStartTime=${form.getReceiptStartTime()},
                                     receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
                                     handleEndTime=${form.getHandleEndTime()})}">尾页</a>
                                 </li>
