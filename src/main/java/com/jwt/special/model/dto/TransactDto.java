@@ -31,7 +31,6 @@ public class TransactDto implements Serializable {
     /**
      * 收文日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     private Date fileTime;
 
     /**
@@ -40,24 +39,44 @@ public class TransactDto implements Serializable {
     private String phone;
 
     /**
-     * 板块
+     * 板块键
      */
-    private String plate;
+    private String plateKey;
 
     /**
-     * 公司名称
+     * 板块值
      */
-    private String companyName;
+    private String plateValue;
 
     /**
-     * 职能中心
+     * 公司名称键
      */
-    private String functions;
+    private String companyNameKey;
 
     /**
-     * 流转部门(领导)
+     * 公司名称值
      */
-    private String leader;
+    private String companyNameValue;
+
+    /**
+     * 职能中心键
+     */
+    private String functionsKey;
+
+    /**
+     * 职能中心值
+     */
+    private String functionsValue;
+
+    /**
+     * 流转部门(领导)键
+     */
+    private String leaderKey;
+
+    /**
+     * 流转部门(领导)值
+     */
+    private String leaderValue;
 
     /**
      * 备注
@@ -67,7 +86,6 @@ public class TransactDto implements Serializable {
     /**
      * 批示日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     private Date handleTime;
 
     /**
@@ -81,8 +99,12 @@ public class TransactDto implements Serializable {
     private String operator;
 
     /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
      * 修改时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:SS",timezone="GMT+8")
     private Date updateTime;
 }

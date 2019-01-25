@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.jwt.special.model.Transact;
 import com.jwt.special.model.request.TransactQueryParam;
 import com.jwt.special.service.TransactService;
+import com.jwt.special.web.NeedLoggedUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,9 +1,12 @@
 package com.jwt.special.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.github.pagehelper.PageInfo;
+import com.jwt.special.model.Dictionary;
 import com.jwt.special.model.Transact;
 import com.jwt.special.model.dto.TransactDto;
 import com.jwt.special.model.request.TransactQueryParam;
+import com.jwt.special.service.DictionaryService;
 import com.jwt.special.service.TransactService;
 import com.jwt.special.web.NeedLoggedUser;
 import com.jwt.special.web.Result;
@@ -14,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author jiangwentao
@@ -26,6 +31,9 @@ public class TransactController {
 
     @Autowired
     private TransactService transactService;
+
+    @Autowired
+    private DictionaryService dictionaryService;
 
    /* @NeedLoggedUser
     @ResponseBody
@@ -40,12 +48,15 @@ public class TransactController {
             return Result.fail("分页查询失败");
         }
     }*/
-    @RequestMapping(value = "/pager", method = RequestMethod.GET)
-    public String supervise(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize, Model model) {
-        TransactQueryParam transactQueryParam = new TransactQueryParam();
+    @RequestMapping(value = "/pager")
+    public String supervise(TransactQueryParam transactQueryParam, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize, Model model) {
         transactQueryParam.setPageNo(pageNum);
         transactQueryParam.setPageSize(pageSize);
-        PageInfo<Transact> pageInfo = transactService.pager(transactQueryParam);
+        System.out.println(transactQueryParam);
+        PageInfo<TransactDto> pageInfo = transactService.pager(transactQueryParam);
+        Map<String, List<Dictionary>> map = dictionaryService.queryList();
+        model.addAttribute("form", transactQueryParam);
+        model.addAttribute("map", map);
         model.addAttribute("pageList", pageInfo.getList());
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());

@@ -34,7 +34,7 @@
         and plate = #{plate,jdbcType=VARCHAR}
       </if>
       <if test="companyName != null and companyName != ''">
-        and complany_name = #{companyName,jdbcType=VARCHAR}
+        and company_name = #{companyName,jdbcType=VARCHAR}
       </if>
       <if test="functions != null and functions != ''">
         and functions = #{functions,jdbcType=VARCHAR}
@@ -49,16 +49,16 @@
         and leader = #{leader,jdbcType=VARCHAR}
       </if>
       <if test="receiptStartTime != null and receiptStartTime != ''">
-        AND DATE_FORMAT(file_time,'%Y-%m-%d') &gt;= #{receiptStartTime}
+        AND DATE_FORMAT(file_time,'%m/%d/%Y') &gt;= #{receiptStartTime}
       </if>
       <if test="receiptEndTime != null and receiptEndTime != ''">
-        AND DATE_FORMAT(file_time,'%Y-%m-%d') &lt;= #{receiptEndTime}
+        AND DATE_FORMAT(file_time,'%m/%d/%Y') &lt;= #{receiptEndTime}
       </if>
       <if test="handleStartTime != null and handleStartTime != ''">
-        AND DATE_FORMAT(handle_time,'%Y-%m-%d') &gt;= #{handleStartTime}
+        AND DATE_FORMAT(handle_time,'%m/%d/%Y') &gt;= #{handleStartTime}
       </if>
       <if test="handleEndTime != null and handleEndTime != ''">
-        AND DATE_FORMAT(handle_time,'%Y-%m-%d') &lt;= #{handleEndTime}
+        AND DATE_FORMAT(handle_time,'%m/%d/%Y') &lt;= #{handleEndTime}
       </if>
     </where>
   </select>

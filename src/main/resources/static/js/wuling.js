@@ -274,7 +274,7 @@ function updatePwd() {
         $("#span01").html("<font color='red'>两次密码不一致!</font>");
         return false;
     } else {
-        jQuery.post("/user/updatePassword", {
+        jQuery.post("/updatePassword", {
             "oldPwd": oldPwd,
             "newPwd": newPwd,
             "token": $.cookie("token")
@@ -290,21 +290,27 @@ function updatePwd() {
 }
 /*注销用户登录*/
 function logout() {
-    jQuery.post("/user/logout", {"token": $.cookie("token")}, function (data) {
+    jQuery.post("/logout", {"token": $.cookie("token")}, function (data) {
         if (data.ok) {
-            $.cookie("token", null);
-            window.location.href = "/user/index";
+            /*$.cookie("token", null);*/
+            $.cookie('token', '', { expires: -1 });
+            window.location.href = "/index";
         }
     }, "json");
 }
-/*跳转督办页面*/
-/*function supervise() {
-    ${token}}
-    jQuery.post("/transact/list",{token: $.cookie("token")}, function (data) {
-        if (data.ok) {
-            window.location.href="/templates/view/supervise/supervise-list.ftl"
+/*返回查询列表信息*/
+/*function queryDictionaryList() {
+    $.get("/dictionary/queryList", function (data) {
+        console.dir(data.plate)
+        /!*$("#plateList").html("<select th:each='item:${data.plate}'  class='form-control' id='plate' name='plate'>\n" +
+            "<option value=\"\">--选择--</option>\n" +
+            "<option th:text='${item.value}'></option>\n" +
+            "</select>")*!/
+        var i = 0;
+        for (i; i< data.plate.length; i++) {
+            $("#option").append("<option value='${data.plate[i].value}'></option>")
         }
-    },"json")
-};*/
+    })
+}*/
 
 

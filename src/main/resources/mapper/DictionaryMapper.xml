@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jwt.special.dao.DictionaryMapper">
+    <resultMap id="BaseResultMap" type="com.jwt.special.model.Dictionary">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="group_code" property="groupCode" jdbcType="VARCHAR" />
+        <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+        <result column="key" property="key" jdbcType="VARCHAR" />
+        <result column="value" property="value" jdbcType="VARCHAR" />
+        <result column="is_del" property="isDel" jdbcType="BIT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="table_name">
+		special_dictionary
+	</sql>
+
+    <select id="findByGroupCodeAndKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM <include refid="table_name" /> t
+        WHERE t.key = #{key, jdbcType=VARCHAR}
+        AND t.group_code = #{groupCode, jdbcType=VARCHAR}
+        LIMIT 1
+    </select>
+    <select id="findByGroupCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM <include refid="table_name" /> t
+        WHERE t.group_code = #{groupCode, jdbcType=VARCHAR}
+    </select>
+</mapper>

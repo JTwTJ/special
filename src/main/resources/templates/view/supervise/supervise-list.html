@@ -14,6 +14,8 @@
     <link href="/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <link href="/static/css/plugins/gritter/jquery.gritter.css" rel="stylesheet">
     <link href="/static/css/plugins/multiselect/tree-multiselect.min.css" rel="stylesheet">
+    <link href="/static/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="/static/css/animate.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/css/home.css" rel="stylesheet">
@@ -42,19 +44,10 @@
                 <div class="content-header">
                     任务督办表
                 </div>
-                <div class="ibox-content m-b-sm border-bottom">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="input-group">
-                                <input type="text" class="input-sm form-control" id="keywords" name="keywords" value="" placeholder="新闻标题"> <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary" id="queryNewsBtn">查询</button></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="op-area">
                     <span>查询结果:</span>
                     <div class="op-area-right">
-                        <button style="display: none" id="query" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> 查询</button>
+                        <button style="display: none" id="query" type="button" class="btn btn-primary" data-toggle="modal" data-target="#queryTransact"><span class="glyphicon glyphicon-search"></span> 查询</button>
                         <button style="display: none" id="import" type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-in"></span> 导入</button>
                         <button style="display: none" id="export" type="button" class="btn btn-default"><span class="glyphicon glyphicon-share"></span> 导出基本信息</button>
                         <button style="display: none" id="delivery" type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span> 导出登记表</button>
@@ -130,10 +123,10 @@
                                     <td th:text="${item.getFileName()}"></td>
                                     <td th:text="${#dates.format(item.getFileTime(), 'yyyy-MM-dd')}"></td>
                                     <td th:text="${item.getPhone()}"></td>
-                                    <td th:text="${item.getPlate()}"></td>
-                                    <td th:text="${item.getCompanyName()}"></td>
-                                    <td th:text="${item.getFunctions()}"></td>
-                                    <td th:text="${item.getLeader()}"></td>
+                                    <td th:text="${item.getPlateValue()}"></td>
+                                    <td th:text="${item.getCompanyNameValue()}"></td>
+                                    <td th:text="${item.getFunctionsValue()}"></td>
+                                    <td th:text="${item.getLeaderValue()}"></td>
                                     <td th:text="${item.getRemark()}"></td>
                                     <td th:text="${#dates.format(item.getHandleTime(), 'yyyy-MM-dd')}"></td>
                                     <td th:text="${item.getHandleIdea()}"></td>
@@ -143,51 +136,76 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <nav>
-                                <ul class="pagination pull-right">
-                                    <li><a>共<span th:text="${total}" class="red">1</span>条</a></li>
-
-                                    <li th:class="${isFirstPage} ? 'disabled'">
-                                        <a th:href="@{${'/transact/pager'}}">首页</a>
-                                    </li>
-
-                                    <li th:class="${isFirstPage} ? 'disabled'">
-                                        <a th:href="@{${'/transact/pager'}(pageNum=${pageNum - 1},pageSize=${pageSize})}">上页</a>
-                                    </li>
-
-                                    <li th:each="page : ${navigatePageNum}"
-                                        th:class="${page == pageNum} ? 'active'">
-                                        <a th:href="@{${'/transact/pager'}(pageNum=${page},pageSize=${pageSize})}"  th:text="${page}"></a>
-                                    </li>
-
-                                    <li th:class="${isLastPage} ? 'disabled'">
-                                        <a th:href="@{${'/transact/pager'}(pageNum=${pageNum+1},pageSize=${pageSize})}">下页</a>
-                                    </li>
-
-                                    <li th:class="${isLastPage} ? 'disabled'">
-                                        <a th:href="@{${'/transact/pager'}(pageNum=${totalPages},pageSize=${pageSize})}">尾页</a>
-                                    </li>
-
-                                    <li><a th:text="'共' + ${totalPages} + '页'">共1页</a></li>
-
-                                    <!--<li><input type="number" class="input change-page-num" style="width:100px; margin: 0px;"
-                                               th:value="${pageNum}"/></li>
-                                    <li>
-                                        <button class="btn btn-info" type="button"
-                                                th:onclick="'doSearch($(\'.change-page-num\').val())'">
-                                            跳转
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <select title="显示条数" class="input-lg" style="width:60px;"
-                                                onchange="changePageSize('good_form', this.value);">
-                                            <option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
-                                                    th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
-                                        </select>
-                                    </li>-->
-                                </ul>
-                            </nav>
                         </div>
+                        <nav>
+                            <ul class="pagination pull-right">
+                                <li><a>共<span th:text="${total}" class="red">1</span>条</a></li>
+
+                                <li th:class="${isFirstPage} ? 'disabled'">
+                                    <a th:href="@{${'/transact/pager'}(plate=${form.getPlate()},
+                                    companyName=${form.getCompanyName()},functions=${form.getFunctions()},
+                                    phone=${form.getPhone()},fileName=${form.getFileName()},
+                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
+                                    handleEndTime=${form.getHandleEndTime()})}">首页</a>
+                                </li>
+
+                                <li th:class="${isFirstPage} ? 'disabled'">
+                                    <a th:href="@{${'/transact/pager'}(pageNum=${pageNum - 1},pageSize=${pageSize},
+                                    plate=${form.getPlate()},companyName=${form.getCompanyName()},
+                                    functions=${form.getFunctions()},phone=${form.getPhone()},
+                                    fileName=${form.getFileName()},leader=${form.getLeader()},
+                                    receiptStratTime=${form.getReceiptStartTime()},receiptEndTime=${form.getReceiptEndTime()},
+                                    handleStartTime=${form.getHandleStartTime()},handleEndTime=${form.getHandleEndTime()})}">上页</a>
+                                </li>
+
+                                <li th:each="page : ${navigatePageNum}"
+                                    th:class="${page == pageNum} ? 'active'">
+                                    <a th:href="@{${'/transact/pager'}(pageNum=${page},pageSize=${pageSize},plate=${form.getPlate()},
+                                    companyName=${form.getCompanyName()},functions=${form.getFunctions()},
+                                    phone=${form.getPhone()},fileName=${form.getFileName()},
+                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
+                                    handleEndTime=${form.getHandleEndTime()})}"  th:text="${page}"></a>
+                                </li>
+
+                                <li th:class="${isLastPage} ? 'disabled'">
+                                    <a th:href="@{${'/transact/pager'}(pageNum=${pageNum+1},pageSize=${pageSize},plate=${form.getPlate()},
+                                    companyName=${form.getCompanyName()},functions=${form.getFunctions()},
+                                    phone=${form.getPhone()},fileName=${form.getFileName()},
+                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
+                                    handleEndTime=${form.getHandleEndTime()})}">下页</a>
+                                </li>
+
+                                <li th:class="${isLastPage} ? 'disabled'">
+                                    <a th:href="@{${'/transact/pager'}(pageNum=${totalPages},pageSize=${pageSize},plate=${form.getPlate()},
+                                    companyName=${form.getCompanyName()},functions=${form.getFunctions()},
+                                    phone=${form.getPhone()},fileName=${form.getFileName()},
+                                    leader=${form.getLeader()},receiptStratTime=${form.getReceiptStartTime()},
+                                    receiptEndTime=${form.getReceiptEndTime()},handleStartTime=${form.getHandleStartTime()},
+                                    handleEndTime=${form.getHandleEndTime()})}">尾页</a>
+                                </li>
+
+                                <li><a th:text="'共' + ${totalPages} + '页'">共1页</a></li>
+
+                                <!--<li><input type="number" class="input change-page-num" style="width:100px; margin: 0px;"
+                                           th:value="${pageNum}"/></li>
+                                <li>
+                                    <button class="btn btn-info" type="button"
+                                            th:onclick="'doSearch($(\'.change-page-num\').val())'">
+                                        跳转
+                                    </button>
+                                </li>
+                                <li>
+                                    <select title="显示条数" class="input-lg" style="width:60px;"
+                                            onchange="changePageSize('good_form', this.value);">
+                                        <option th:each="pageSize : ${pageSizeList}" th:text="${pageSize}"
+                                                th:value="${pageSize}" th:selected="${pageSize == pageInfo.pageSize} ? 'selected'"></option>
+                                    </select>
+                                </li>-->
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -196,6 +214,7 @@
     </div>
     <!---右侧内容区结束----->
 </div>
+<!--修改密码模态框-->
 <div class="modal fade" id="editPwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -228,6 +247,95 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="queryTransact" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">查询督办信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="new_customer_form" th:action="@{/transact/pager}">
+                    <div class="form-group">
+                        <label for="fileName" class="col-sm-2 control-label">
+                            文件名称
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="fileName" placeholder="文件名称" name="fileName" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plate" style="float:left;padding:7px 15px 0 27px;">板块名称</label>
+                        <div class="col-sm-10" id="plateList">
+                            <select class="form-control" id="plate" name="plate">
+                                <option value="">--请选择--</option>
+                                <option th:each="plateList:${map.get('plate')}" th:text="${plateList.getValue()}"
+                                        th:selected="${plate eq plateList.getKey()}" th:value="${plateList.getKey()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName" style="float:left;padding:7px 15px 0 27px;">公司名称</label>
+                        <div class="col-sm-10">
+                            <select	class="form-control" id="companyName"  name="companyName">
+                                <option value="">--请选择--</option>
+                                <option th:each="plateList:${map.get('companyName')}" th:text="${plateList.getValue()}"
+                                        th:selected="${companyName eq plateList.getKey()}" th:value="${plateList.getKey()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="functions" style="float:left;padding:7px 15px 0 27px;">职能中心</label>
+                        <div class="col-sm-10">
+                            <select	class="form-control" id="functions" name="functions">
+                                <option value="">--请选择--</option>
+                                <option th:each="plateList:${map.get('functions')}" th:text="${plateList.getValue()}"
+                                        th:selected="${functions eq plateList.getKey()}" th:value="${plateList.getKey()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leader" style="float:left;padding:7px 15px 0 27px;">流转部门</label>
+                        <div class="col-sm-10">
+                            <select	class="form-control" id="leader" name="leader">
+                                <option value="">--请选择--</option>
+                                <option th:each="plateList:${map.get('leader')}" th:text="${plateList.getValue()}"
+                                        th:selected="${leader eq plateList.getKey()}" th:value="${plateList.getKey()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-2 control-label">电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" placeholder="电话" name="phone" />
+                        </div>
+                    </div>
+                    <div class="form-group" id="data_5">
+                        <label class="col-sm-2 control-label">收文日期</label>
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="text" class="input-sm form-control" name="receiptStartTime" value="12/10/2018">
+                            <span class="input-group-addon">至</span>
+                            <input type="text" class="input-sm form-control" name="receiptEndTime" value="12/10/2018">
+                        </div>
+                        <label class="col-sm-2 control-label">批示日期</label>
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="text" class="input-sm form-control" name="handleStartTime" value="12/10/2018">
+                            <span class="input-group-addon">至</span>
+                            <input type="text" class="input-sm form-control" name="handleEndTime" value="12/10/2018">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 全局 scripts -->
 <script src="/static/js/jquery-2.1.1.js"></script>
 <script src="/static/js/bootstrap.js"></script>
@@ -239,6 +347,8 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <!-- 插件 scripts -->
 <script src="/static/js/plugins/toastr/toastr.min.js" async></script>
+<script src="/static/js/My97DatePicker/WdatePicker.js"></script>
+<script src="/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 <!---顶部弹出提示--->
 
 
@@ -295,6 +405,13 @@
                 }
             }
         }, "json",false)
+    });
+</script>
+<script>
+    $('#data_5 .input-daterange').datepicker({
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
     });
 </script>
 </body>

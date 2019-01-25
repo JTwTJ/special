@@ -54,5 +54,6 @@ public class TransactQueryParam implements Serializable {
     private String handleEndTime;
 
     private Integer pageSize = 10;
+
     private Integer pageNo = 1;
 }

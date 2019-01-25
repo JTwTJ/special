@@ -26,7 +26,6 @@ import java.util.UUID;
  * @date 2018/12/14 0014 下午 1:54
  */
 @Controller
-@RequestMapping(value = "/user")
 @Slf4j
 public class UserController {
 
@@ -118,14 +117,5 @@ public class UserController {
         loginUserInfo.clearUserInfo(token);
         return Result.ok(Boolean.TRUE);
     }
-
-    @NeedLoggedUser
-    @ResponseBody
-    @RequestMapping(value = "/birth", method = RequestMethod.POST)
-    public Result<Boolean> birthPage() {
-        System.out.println("hahahahah");
-        return Result.ok(Boolean.TRUE);
-    }
-
 }
 
