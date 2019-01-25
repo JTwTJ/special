@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.jwt.special.model.Dictionary;
 import com.jwt.special.model.Transact;
 import com.jwt.special.model.dto.TransactDto;
+import com.jwt.special.model.request.TransactAddParam;
 import com.jwt.special.model.request.TransactQueryParam;
 
 import java.util.List;
@@ -22,6 +23,27 @@ public interface TransactService {
      */
     PageInfo<TransactDto> pager(TransactQueryParam transactQueryParam);
 
+    /**
+     * 获取下拉菜单信息
+     * @param plate
+     * @param plateGroupCode
+     * @param companyName
+     * @param companyNameGroupCode
+     * @param functions
+     * @param functionsGroupCode
+     * @param leader
+     * @param leaderGroupCode
+     * @return
+     */
     Map<String,Dictionary> getDictionary(String plate, String plateGroupCode,String companyName, String companyNameGroupCode,
                                                String functions,String functionsGroupCode,String leader,String leaderGroupCode);
+
+    /**
+     * 添加督办
+     * @param transactAddParam
+     */
+    void add(TransactAddParam transactAddParam);
+
+
+
 }

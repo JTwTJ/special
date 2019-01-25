@@ -9,6 +9,7 @@ import com.jwt.special.model.Dictionary;
 import com.jwt.special.model.Transact;
 import com.jwt.special.model.dto.TransactDto;
 import com.jwt.special.model.enums.DictionaryGroup;
+import com.jwt.special.model.request.TransactAddParam;
 import com.jwt.special.model.request.TransactQueryParam;
 import com.jwt.special.service.TransactService;
 import lombok.extern.slf4j.Slf4j;
@@ -131,6 +132,11 @@ public class TransactServiceImpl implements TransactService {
         map.put("functions",functionsDictionary);
         map.put("leader",leaderDictionary);
         return map;
+    }
+
+    @Override
+    public void add(TransactAddParam transactAddParam) {
+
     }
 }
 

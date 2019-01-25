@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.jwt.special.model.Dictionary;
 import com.jwt.special.model.Transact;
 import com.jwt.special.model.dto.TransactDto;
+import com.jwt.special.model.request.TransactAddParam;
 import com.jwt.special.model.request.TransactQueryParam;
 import com.jwt.special.service.DictionaryService;
 import com.jwt.special.service.TransactService;
@@ -35,43 +36,44 @@ public class TransactController {
     @Autowired
     private DictionaryService dictionaryService;
 
-   /* @NeedLoggedUser
-    @ResponseBody
-    @RequestMapping(value = "/pager", method = RequestMethod.POST)
-    public Result<PageInfo<Transact>> pager(TransactQueryParam transactQueryParam, HttpSession session) throws Exception {
-        try {
-            PageInfo<Transact> pageInfo = transactService.pager(transactQueryParam);
-            session.setAttribute("page", pageInfo);
-            return Result.ok(pageInfo);
-        } catch (Exception e) {
-            log.warn("pager fail :{}",e);
-            return Result.fail("分页查询失败");
-        }
-    }*/
-    @RequestMapping(value = "/pager")
-    public String supervise(TransactQueryParam transactQueryParam, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize, Model model) {
+    @RequestMapping(value = "/pager", method = RequestMethod.GET)
+    public String pager(TransactQueryParam transactQueryParam, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize, Model model) {
         transactQueryParam.setPageNo(pageNum);
         transactQueryParam.setPageSize(pageSize);
-        System.out.println(transactQueryParam);
-        PageInfo<TransactDto> pageInfo = transactService.pager(transactQueryParam);
-        Map<String, List<Dictionary>> map = dictionaryService.queryList();
-        model.addAttribute("form", transactQueryParam);
-        model.addAttribute("map", map);
-        model.addAttribute("pageList", pageInfo.getList());
-        //获得当前页
-        model.addAttribute("pageNum", pageInfo.getPageNum());
-        //获得一页显示的条数
-        model.addAttribute("pageSize", pageInfo.getPageSize());
-        //是否是第一页
-        model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
-        //获得总页数
-        model.addAttribute("totalPages", pageInfo.getPages());
-        //总条数
-        model.addAttribute("total", pageInfo.getTotal());
-        //是否是最后一页
-        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
-        //所有导航页号
-        model.addAttribute("navigatePageNum", pageInfo.getNavigatepageNums());
+        try {
+            PageInfo<TransactDto> pageInfo = transactService.pager(transactQueryParam);
+            Map<String, List<Dictionary>> map = dictionaryService.queryList();
+            model.addAttribute("form", transactQueryParam);
+            model.addAttribute("map", map);
+            model.addAttribute("pageList", pageInfo.getList());
+            //获得当前页
+            model.addAttribute("pageNum", pageInfo.getPageNum());
+            //获得一页显示的条数
+            model.addAttribute("pageSize", pageInfo.getPageSize());
+            //是否是第一页
+            model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
+            //获得总页数
+            model.addAttribute("totalPages", pageInfo.getPages());
+            //总条数
+            model.addAttribute("total", pageInfo.getTotal());
+            //是否是最后一页
+            model.addAttribute("isLastPage", pageInfo.isIsLastPage());
+            //所有导航页号
+            model.addAttribute("navigatePageNum", pageInfo.getNavigatepageNums());
+        } catch (Exception e) {
+            log.warn("pager fail:{}", e);
+        }
+
         return "view/supervise/supervise-list";
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(TransactAddParam transactAddParam) {
+        try {
+            transactService.add(transactAddParam);
+        } catch (Exception e) {
+            log.warn("add transact fail:{}", e);
+        }
+        return "redirect:/transact/pager";
     }
 }
