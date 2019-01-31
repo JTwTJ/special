@@ -13,6 +13,10 @@ public class TransactQueryParam implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 督办id
+     */
+    private Long transactId;
+    /**
      * 板块
      */
     private String plate;

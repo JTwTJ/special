@@ -4,11 +4,13 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.github.pagehelper.PageInfo;
 import com.jwt.special.model.Dictionary;
 import com.jwt.special.model.Transact;
+import com.jwt.special.model.User;
 import com.jwt.special.model.dto.TransactDto;
 import com.jwt.special.model.request.TransactAddParam;
 import com.jwt.special.model.request.TransactQueryParam;
 import com.jwt.special.service.DictionaryService;
 import com.jwt.special.service.TransactService;
+import com.jwt.special.util.UserUtil;
 import com.jwt.special.web.NeedLoggedUser;
 import com.jwt.special.web.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -68,12 +70,27 @@ public class TransactController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(TransactAddParam transactAddParam) {
+    public String add(TransactAddParam transactAddParam, HttpSession session) {
         try {
+            String operator = (String) session.getAttribute("username");
+            transactAddParam.setOperator(operator);
             transactService.add(transactAddParam);
         } catch (Exception e) {
             log.warn("add transact fail:{}", e);
         }
         return "redirect:/transact/pager";
+    }
+    @RequestMapping(value = "/queryById", method = RequestMethod.GET)
+    @ResponseBody
+    public TransactDto queryById(@RequestParam Long transactId, Model model) {
+        try {
+            TransactDto transactDto = transactService.queryById(transactId);
+            System.out.println(transactDto);
+            model.addAttribute("transactDto",transactDto);
+            return transactDto;
+        } catch (Exception e) {
+            log.warn("queryById fail:{}",e);
+            return null;
+        }
     }
 }

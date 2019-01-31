@@ -15,6 +15,7 @@ import com.jwt.special.service.TransactService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -90,8 +91,6 @@ public class TransactServiceImpl implements TransactService {
             transactDto.setUpdateTime(transact.getUpdateTime());
             transactDtoList.add(transactDto);
         }
-        /*System.out.println(transactList);*/
-       /* System.out.println(transactDtoList);*/
 
         PageInfo<TransactDto> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(page.getPageNum());
@@ -135,8 +134,58 @@ public class TransactServiceImpl implements TransactService {
     }
 
     @Override
+    @Transactional
     public void add(TransactAddParam transactAddParam) {
+        transactMapper.insert(transactAddParam);
+    }
 
+    @Override
+    public TransactDto queryById(Long transactId) {
+        TransactQueryParam transactQueryParam = new TransactQueryParam();
+        transactQueryParam.setTransactId(transactId);
+        List<Transact> transactList = transactMapper.pager(transactQueryParam);
+        Transact transact = transactList.get(0);
+        TransactDto transactDto = new TransactDto();
+        Map<String, Dictionary> map = getDictionary(transact.getPlate(), DictionaryGroup.plate.getGroupCode(),
+                transact.getCompanyName(), DictionaryGroup.companyName.getGroupCode(),
+                transact.getFunctions(), DictionaryGroup.abilityCenter.getGroupCode(), transact.getLeader(),
+                DictionaryGroup.transDepartMent.getGroupCode());
+        if (null == map.get("plate")) {
+            transactDto.setPlateKey("");
+            transactDto.setPlateValue("");
+        } else {
+            transactDto.setPlateKey(map.get("plate").getKey());
+            transactDto.setPlateValue(map.get("plate").getValue());
+        }
+        if (null == map.get("companyName")) {
+            transactDto.setCompanyNameKey("");
+            transactDto.setCompanyNameValue("");
+        } else {
+            transactDto.setCompanyNameKey(map.get("companyName").getKey());
+            transactDto.setCompanyNameValue(map.get("companyName").getValue());
+        }
+        if (null == map.get("functions")) {
+            transactDto.setFunctionsKey("");
+            transactDto.setFunctionsValue("");
+        } else {
+            transactDto.setFunctionsKey(map.get("functions").getKey());
+            transactDto.setFunctionsValue(map.get("functions").getValue());
+        }
+        if (null == map.get("leader")) {
+            transactDto.setLeaderKey("");
+            transactDto.setLeaderValue("");
+        } else {
+            transactDto.setLeaderKey(map.get("leader").getKey());
+            transactDto.setLeaderValue(map.get("leader").getValue());
+        }
+        transactDto.setTransactId(transact.getTransactId());
+        transactDto.setFileName(transact.getFileName());
+        transactDto.setFileTime(transact.getFileTime());
+        transactDto.setPhone(transact.getPhone());
+        transactDto.setRemark(transact.getRemark());
+        transactDto.setHandleTime(transact.getHandleTime());
+        transactDto.setHandleIdea(transact.getHandleIdea());
+        return transactDto;
     }
 }
 

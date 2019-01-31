@@ -44,6 +44,13 @@ public interface TransactService {
      */
     void add(TransactAddParam transactAddParam);
 
+    /**
+     * 通过id查询督办信息
+     * @param transactId
+     * @return
+     */
+    TransactDto queryById(Long transactId);
+
 
 
 }

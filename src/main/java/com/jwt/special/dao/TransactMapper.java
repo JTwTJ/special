@@ -2,6 +2,7 @@ package com.jwt.special.dao;
 
 import com.jwt.special.model.Transact;
 import com.jwt.special.model.dto.TransactDto;
+import com.jwt.special.model.request.TransactAddParam;
 import com.jwt.special.model.request.TransactQueryParam;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,7 +20,7 @@ public interface TransactMapper {
 
     int deleteByPrimaryKey(Long transactId);
 
-    int insert(Transact record);
+    int insert(TransactAddParam transactAddParam);
 
     int insertSelective(Transact record);
 

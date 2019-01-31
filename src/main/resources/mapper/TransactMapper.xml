@@ -30,6 +30,9 @@
     from <include refid="table_name"/>
     <where>
       1 = 1
+      <if test="transactId !=null and transactId != ''">
+        and transact_id = #{transactId, jdbcType=BIGINT}
+      </if>
       <if test="plate != null and plate != ''">
         and plate = #{plate,jdbcType=VARCHAR}
       </if>
@@ -61,6 +64,7 @@
         AND DATE_FORMAT(handle_time,'%m/%d/%Y') &lt;= #{handleEndTime}
       </if>
     </where>
+    order by update_time desc
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -73,17 +77,17 @@
     delete from special_transact
     where transact_id = #{transactId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jwt.special.model.Transact">
-    insert into special_transact (transact_id, file_name, file_time, 
+  <insert id="insert" parameterType="com.jwt.special.model.request.TransactAddParam">
+    insert into special_transact (file_name, file_time,
       phone, plate, company_name, 
       functions, leader, remark, 
       handle_time, handle_idea, `operator`, 
       create_time, update_time)
-    values (#{transactId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, #{fileTime,jdbcType=DATE}, 
+    values (#{fileName,jdbcType=VARCHAR}, #{fileTime,jdbcType=DATE},
       #{phone,jdbcType=VARCHAR}, #{plate,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
       #{functions,jdbcType=VARCHAR}, #{leader,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{handleTime,jdbcType=DATE}, #{handleIdea,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.jwt.special.model.Transact">
     insert into special_transact
