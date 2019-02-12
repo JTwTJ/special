@@ -10,6 +10,7 @@ import com.jwt.special.model.request.TransactAddParam;
 import com.jwt.special.model.request.TransactQueryParam;
 import com.jwt.special.service.DictionaryService;
 import com.jwt.special.service.TransactService;
+import com.jwt.special.util.ExcelUtil;
 import com.jwt.special.util.UserUtil;
 import com.jwt.special.web.NeedLoggedUser;
 import com.jwt.special.web.Result;
@@ -19,7 +20,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,8 +78,6 @@ public class TransactController {
     public String add(TransactAddParam transactAddParam, HttpSession session) {
         try {
             String operator = (String) session.getAttribute("username");
-            transactAddParam.setOperator(operator);
-            transactService.add(transactAddParam);
         } catch (Exception e) {
             log.warn("add transact fail:{}", e);
         }
@@ -91,6 +94,59 @@ public class TransactController {
         } catch (Exception e) {
             log.warn("queryById fail:{}",e);
             return null;
+        }
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(TransactAddParam transactAddParam, HttpSession session) {
+        try {
+            String operator = (String) session.getAttribute("username");
+            transactAddParam.setOperator(operator);
+            System.out.println(transactAddParam);
+            transactService.update(transactAddParam);
+        } catch (Exception e) {
+            log.warn("update transact fail:{}", e);
+        }
+        return "redirect:/transact/pager";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public void delete(@RequestParam Long transactId) {
+        try {
+           transactService.delete(transactId);
+        } catch (Exception e) {
+            log.warn("delete transact fail:{}", e);
+        }
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public void export(HttpServletResponse response) throws IOException {
+        List<TransactDto> transactList = transactService.queryAll();
+        //到处excel
+        LinkedHashMap<String, String> fieldMap = new LinkedHashMap<>();
+        fieldMap.put("fileName", "文件名称");
+        fieldMap.put("fileTime", "收文日期");
+        fieldMap.put("phone", "电话");
+        fieldMap.put("plateValue", "板块");
+        fieldMap.put("companyNameValue", "公司名称");
+        fieldMap.put("functionsValue", "职能中心");
+        fieldMap.put("leaderValue", "领导流转部门");
+        fieldMap.put("remark", "备注");
+        fieldMap.put("handleTime", "批示日期");
+        fieldMap.put("handleIdea", "批示意见");
+        fieldMap.put("operator", "操作人");
+        fieldMap.put("createTime", "创建时间");
+        fieldMap.put("updateTime", "修改时间");
+        String sheetName = "督办表";
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-disposition", "attachment;filename=Transact.xls");//默认Excel名称
+        response.flushBuffer();
+        OutputStream fos = response.getOutputStream();
+        try {
+            ExcelUtil.listToExcel(transactList, fieldMap, sheetName, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

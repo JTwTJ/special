@@ -51,6 +51,28 @@ public interface TransactService {
      */
     TransactDto queryById(Long transactId);
 
+    /**
+     * 修改督办
+     * @param transactAddParam
+     */
+    void update(TransactAddParam transactAddParam);
 
+    /**
+     * 删除督办信息
+     * @param transactId
+     */
+    void delete(Long transactId);
 
+    /**
+     * 查询所有
+     * @return
+     */
+    List<TransactDto> queryAll();
+
+    /**
+     * 对象转换
+     * @param transactList
+     * @return
+     */
+    List<TransactDto> convertToDto(List<Transact> transactList);
 }

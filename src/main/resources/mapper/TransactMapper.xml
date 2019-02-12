@@ -17,6 +17,23 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+  
+  <resultMap id="TransactDtoResultMap" type="com.jwt.special.model.dto.TransactDto">
+    <id column="transact_id" jdbcType="BIGINT" property="transactId"/>
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_time" jdbcType="DATE" property="fileTime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="value" jdbcType="VARCHAR" property="plateValue" />
+    <result column="value" jdbcType="VARCHAR" property="companyNameValue" />
+    <result column="value" jdbcType="VARCHAR" property="functionsValue" />
+    <result column="value" jdbcType="VARCHAR" property="leaderValue" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="handle_time" jdbcType="DATE" property="handleTime" />
+    <result column="handle_idea" jdbcType="VARCHAR" property="handleIdea" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
   <sql id="Base_Column_List">
     transact_id, file_name, file_time, phone, plate, company_name, functions, leader, 
     remark, handle_time, handle_idea, `operator`, create_time, update_time
@@ -72,6 +89,9 @@
     <include refid="Base_Column_List" />
     from special_transact
     where transact_id = #{transactId,jdbcType=BIGINT}
+  </select>
+  <select id="queryAll" resultMap="BaseResultMap">
+    select * from special_transact
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from special_transact
@@ -242,4 +262,47 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where transact_id = #{transactId,jdbcType=BIGINT}
   </update>
+    <update id="update" parameterType="com.jwt.special.model.request.TransactAddParam">
+      update special_transact
+      <set>
+        <if test="fileName != null and fileName != ''">
+          file_name = #{fileName},
+        </if>
+        <if test="fileTime != null">
+          file_time = #{fileTime},
+        </if>
+        <if test="phone != null and phone != ''">
+          phone = #{phone},
+        </if>
+        <if test="plate != null and plate != ''">
+          plate = #{plate},
+        </if>
+        <if test="companyName != null and companyName != ''">
+          company_name = #{companyName},
+        </if>
+        <if test="functions != null and functions != ''">
+          functions = #{functions},
+        </if>
+        <if test="leader != null and leader != ''">
+          leader = #{leader},
+        </if>
+        <if test="remark != null and remark != ''">
+          remark = #{remark},
+        </if>
+        <if test="handleTime != null">
+          handle_time = #{handleTime},
+        </if>
+        <if test="handleIdea != null and handleIdea != ''">
+          handle_idea = #{handleIdea},
+        </if>
+        <if test="fileName != null and fileName != ''">
+          file_name = #{fileName},
+        </if>
+        <if test="operator != null and operator != ''">
+          operator = #{operator},
+        </if>
+        update_time = now()
+      </set>
+      where transact_id = #{transactId}
+    </update>
 </mapper>

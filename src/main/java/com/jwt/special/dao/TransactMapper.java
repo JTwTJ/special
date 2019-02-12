@@ -29,4 +29,13 @@ public interface TransactMapper {
     int updateByPrimaryKeySelective(Transact record);
 
     int updateByPrimaryKey(Transact record);
+
+    /**
+     * 修改
+     * @param transactAddParam
+     * @return
+     */
+    int update(TransactAddParam transactAddParam);
+
+    List<Transact> queryAll();
 }

@@ -42,55 +42,7 @@ public class TransactServiceImpl implements TransactService {
 
         Page<Object> page = PageHelper.startPage(transactQueryParam.getPageNo(), transactQueryParam.getPageSize());
         List<Transact> transactList = transactMapper.pager(transactQueryParam);
-
-        List<TransactDto> transactDtoList = new ArrayList<>();
-        TransactDto transactDto = null;
-        for (Transact transact : transactList) {
-            Map<String, Dictionary> map = getDictionary(transact.getPlate(), DictionaryGroup.plate.getGroupCode(),
-                    transact.getCompanyName(), DictionaryGroup.companyName.getGroupCode(),
-                    transact.getFunctions(), DictionaryGroup.abilityCenter.getGroupCode(), transact.getLeader(),
-                    DictionaryGroup.transDepartMent.getGroupCode());
-            transactDto = new TransactDto();
-            transactDto.setTransactId(transact.getTransactId());
-            transactDto.setFileName(transact.getFileName());
-            transactDto.setFileTime(transact.getFileTime());
-            transactDto.setPhone(transact.getPhone());
-            if (null == map.get("plate")) {
-                transactDto.setPlateKey("");
-                transactDto.setPlateValue("");
-            } else {
-                transactDto.setPlateKey(map.get("plate").getKey());
-                transactDto.setPlateValue(map.get("plate").getValue());
-            }
-            if (null == map.get("companyName")) {
-                transactDto.setCompanyNameKey("");
-                transactDto.setCompanyNameValue("");
-            } else {
-                transactDto.setCompanyNameKey(map.get("companyName").getKey());
-                transactDto.setCompanyNameValue(map.get("companyName").getValue());
-            }
-            if (null == map.get("functions")) {
-                transactDto.setFunctionsKey("");
-                transactDto.setFunctionsValue("");
-            } else {
-                transactDto.setFunctionsKey(map.get("functions").getKey());
-                transactDto.setFunctionsValue(map.get("functions").getValue());
-            }
-            if (null == map.get("leader")) {
-                transactDto.setLeaderKey("");
-                transactDto.setLeaderValue("");
-            } else {
-                transactDto.setLeaderKey(map.get("leader").getKey());
-                transactDto.setLeaderValue(map.get("leader").getValue());
-            }
-            transactDto.setRemark(transact.getRemark());
-            transactDto.setHandleTime(transact.getHandleTime());
-            transactDto.setHandleIdea(transact.getHandleIdea());
-            transactDto.setOperator(transact.getOperator());
-            transactDto.setCreateTime(transact.getCreateTime());
-            transactDto.setUpdateTime(transact.getUpdateTime());
-            transactDtoList.add(transactDto);
-        }
+        List<TransactDto> transactDtoList = convertToDto(transactList);
 
         PageInfo<TransactDto> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(page.getPageNum());
@@ -150,28 +102,28 @@ public class TransactServiceImpl implements TransactService {
                 transact.getCompanyName(), DictionaryGroup.companyName.getGroupCode(),
                 transact.getFunctions(), DictionaryGroup.abilityCenter.getGroupCode(), transact.getLeader(),
                 DictionaryGroup.transDepartMent.getGroupCode());
-        if (null == map.get("plate")) {
+        if (map.get("plate") == null ) {
             transactDto.setPlateKey("");
             transactDto.setPlateValue("");
         } else {
             transactDto.setPlateKey(map.get("plate").getKey());
             transactDto.setPlateValue(map.get("plate").getValue());
         }
-        if (null == map.get("companyName")) {
+        if (map.get("companyName") == null) {
             transactDto.setCompanyNameKey("");
             transactDto.setCompanyNameValue("");
         } else {
             transactDto.setCompanyNameKey(map.get("companyName").getKey());
             transactDto.setCompanyNameValue(map.get("companyName").getValue());
         }
-        if (null == map.get("functions")) {
+        if (map.get("functions") == null) {
             transactDto.setFunctionsKey("");
             transactDto.setFunctionsValue("");
         } else {
             transactDto.setFunctionsKey(map.get("functions").getKey());
             transactDto.setFunctionsValue(map.get("functions").getValue());
         }
-        if (null == map.get("leader")) {
+        if (map.get("leader") == null) {
             transactDto.setLeaderKey("");
             transactDto.setLeaderValue("");
         } else {
@@ -186,6 +138,77 @@ public class TransactServiceImpl implements TransactService {
         transactDto.setHandleTime(transact.getHandleTime());
         transactDto.setHandleIdea(transact.getHandleIdea());
         return transactDto;
+    }
+
+    @Override
+    @Transactional
+    public void update(TransactAddParam transactAddParam) {
+        transactMapper.update(transactAddParam);
+    }
+
+    @Override
+    public void delete(Long transactId) {
+        transactMapper.deleteByPrimaryKey(transactId);
+    }
+
+    @Override
+    public List<TransactDto> queryAll() {
+        List<Transact> transactList = transactMapper.queryAll();
+        List<TransactDto> transactDtoList = convertToDto(transactList);
+        return transactDtoList;
+    }
+
+    @Override
+    public List<TransactDto> convertToDto(List<Transact> transactList) {
+        TransactDto transactDto = null;
+        List<TransactDto> transactDtoList = new ArrayList<>();
+        for (Transact transact : transactList) {
+            Map<String, Dictionary> map = getDictionary(transact.getPlate(), DictionaryGroup.plate.getGroupCode(),
+                    transact.getCompanyName(), DictionaryGroup.companyName.getGroupCode(),
+                    transact.getFunctions(), DictionaryGroup.abilityCenter.getGroupCode(), transact.getLeader(),
+                    DictionaryGroup.transDepartMent.getGroupCode());
+            transactDto = new TransactDto();
+            transactDto.setTransactId(transact.getTransactId());
+            transactDto.setFileName(transact.getFileName());
+            transactDto.setFileTime(transact.getFileTime());
+            transactDto.setPhone(transact.getPhone());
+            if (null == map.get("plate")) {
+                transactDto.setPlateKey("");
+                transactDto.setPlateValue("");
+            } else {
+                transactDto.setPlateKey(map.get("plate").getKey());
+                transactDto.setPlateValue(map.get("plate").getValue());
+            }
+            if (null == map.get("companyName")) {
+                transactDto.setCompanyNameKey("");
+                transactDto.setCompanyNameValue("");
+            } else {
+                transactDto.setCompanyNameKey(map.get("companyName").getKey());
+                transactDto.setCompanyNameValue(map.get("companyName").getValue());
+            }
+            if (null == map.get("functions")) {
+                transactDto.setFunctionsKey("");
+                transactDto.setFunctionsValue("");
+            } else {
+                transactDto.setFunctionsKey(map.get("functions").getKey());
+                transactDto.setFunctionsValue(map.get("functions").getValue());
+            }
+            if (null == map.get("leader")) {
+                transactDto.setLeaderKey("");
+                transactDto.setLeaderValue("");
+            } else {
+                transactDto.setLeaderKey(map.get("leader").getKey());
+                transactDto.setLeaderValue(map.get("leader").getValue());
+            }
+            transactDto.setRemark(transact.getRemark());
+            transactDto.setHandleTime(transact.getHandleTime());
+            transactDto.setHandleIdea(transact.getHandleIdea());
+            transactDto.setOperator(transact.getOperator());
+            transactDto.setCreateTime(transact.getCreateTime());
+            transactDto.setUpdateTime(transact.getUpdateTime());
+            transactDtoList.add(transactDto);
+        }
+        return transactDtoList;
     }
 }
 

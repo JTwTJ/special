@@ -1,0 +1,421 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>生日提醒</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="/static/css/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="/static/css/plugins/multiselect/tree-multiselect.min.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        ul, li {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        #calendar {
+            width: 600px;
+        }
+
+        .calendar {
+            position: relative;
+            font-family: "Chinese Quote", "Microsoft YaHei";
+            font-size: 14px;
+        }
+
+
+        .calendar-header {
+            padding: 11px 16px 11px 0;
+            text-align: right;
+        }
+
+        .calendar-select {
+            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.65);
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: inline-block;
+            position: relative;
+            outline: 0;
+        }
+
+        .calendar-table {
+            width: 100%;
+            height: 100%;
+        }
+
+        .calendar-column-header,
+        .calendar-cell {
+            width: 14%
+        }
+
+        .calendar-column-header {
+            font-weight: 400;
+            text-align: right;
+            padding-right: 12px;
+        }
+
+        .calendar-table {
+            table-layout: fixed;
+        }
+
+        .calendar-cell {
+            color: rgba(0, 0, 0, 0.65);
+        }
+
+
+
+        .calendar-cell.calendar-last-month-cell,
+        .calendar-cell.calendar-next-month-cell {
+            color: rgba(0, 0, 0, 0.25);
+        }
+
+        .calendar-date {
+            padding: 4px 8px;
+            margin: 0 4px;
+            border-top: 2px solid #e8e8e8;
+        }
+
+        .calendar-cell.calendar-thisMonth .calendar-date,
+        .calendar-cell.calendar-today .calendar-date {
+            border-top-color: #1890ff;
+            background-color: #e6f7ff;
+        }
+
+        .calendar-date:hover {
+            background: #e6f7ff;
+        }
+
+
+        .calendar-value {
+            text-align: center;
+        }
+
+        .calendar-content {
+            height: 60px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: static;
+            width: auto;
+            left: auto;
+            bottom: auto;
+        }
+
+
+
+
+        .calendar-select {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .btn.calendar-select-active {
+            border-color: #40a9ff;
+            z-index: 2;
+        }
+
+        .calendar-select:first-child {
+            margin-right: 10px;
+        }
+
+        .calendar-year-select,
+        .calendar-month-select {
+            border-radius: 4px;
+            border: 1px solid #d9d9d9;
+        }
+
+        .calendar-year-select:hover,
+        .calendar-month-select:hover {
+            border-color: #40a9ff;
+        }
+
+        .calendar-year-text,
+        .calendar-month-text {
+            margin: 0 10px;
+            line-height: 28px;
+        }
+
+        .calendar-icon {
+            margin: 0 10px 0 0;
+        }
+
+        .calendar-icon * {
+            color: rgba(0, 0, 0, 0.25);
+        }
+
+        .btn {
+            float: left;
+            padding: 5px 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+        }
+
+        .btn-group {
+            float: left;
+            display: inline;
+            padding: 0 8px;
+        }
+
+        .btn-group > .btn {
+            position: relative;
+            float: left;
+        }
+
+        .btn-group > .btn:hover {
+            z-index: 2;
+            border-color: #40a9ff;
+        }
+
+        .btn-group .btn + .btn {
+            margin-left: -1px;
+        }
+
+        .btn-group > .btn:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .btn-group > .btn:last-child:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+
+        /*dropdown-menu*/
+        ul.dropdown-month, .dropdown-month li,
+        ul.dropdown-year, .dropdown-year li {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown-month.open,
+        .dropdown-year.open {
+            display: inline-block;
+            margin-top: 1px;
+            width: 100%;
+        }
+
+        .dropdown-month,
+        .dropdown-year {
+            height: 250px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: #fff;
+            width: 50px;
+            border: 1px solid #eee;
+            box-shadow: 0px 6px 12px rgba(0,0,0,0.175);
+            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175)
+        }
+
+        .dropdown-month .month-item,
+        .dropdown-year .year-item {
+            font-size: 12px;
+            position: relative;
+            display: block;
+            padding: 5px 2px;
+            line-height: 20px;
+            font-weight: normal;
+            color: rgba(0, 0, 0, 0.65);
+            white-space: nowrap;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-transition: background 0.3s ease;
+            transition: background 0.3s ease;
+        }
+
+        .month-item:hover,
+        .year-item:hover {
+            background: #e6f7ff;
+        }
+
+        .year-item.active {
+            background-color: #fafafa;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.65);
+        }
+        /*自定义事件样式*/
+        ul.events li {
+            white-space: nowrap;
+            font-size: 13px;
+            padding: 1px 2px;
+        }
+
+        ul.events li span {
+            margin-left: 5px;
+        }
+
+        ul.events li:before {
+            content: "*"
+        }
+
+        /*scrollbar*/
+        *::-webkit-scrollbar {
+            width: 8px;
+            background-color: #fff;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #ddd;
+            border-radius: 8px;
+            -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, .3);
+        }
+    </style>
+
+</head>
+<body class="fixed-sidebar">
+<div id="wrapper">
+    <!----左侧导航开始----->
+    <nav class="navbar-default navbar-static-side animated fadeInLeft" role="navigation" id="leftnav"></nav>
+    <!----左侧导航结束----->
+
+    <!---右侧内容区开始---->
+    <div id="page-wrapper" class="gray-bg">
+        <!---顶部状态栏 star-->
+        <div class="row ">
+            <nav class="navbar navbar-fixed-top" role="navigation" id="topnav"></nav>
+        </div>
+        <!---顶部状态栏 end-->
+
+        <!--------当前位置----->
+
+
+        <!-----内容区域---->
+        <div class="wrapper wrapper-content">
+            <div id="calendar"></div>
+        </div>
+    </div>
+</div>
+<!-- 全局 scripts -->
+<script src="/static/js/jquery-2.1.1.js"></script>
+<!--<script src="/static/js/jquery.min.js"></script>-->
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/wuling.js"></script>
+<script src="/static/js/plugins/pace/pace.min.js"></script>
+<script src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/static/js/plugins/multiselect/tree-multiselect.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<!-- 插件 scripts -->
+<script src="/static/js/plugins/toastr/toastr.min.js" async></script>
+<script src="/static/js/calendar.js"></script>
+<!---顶部弹出提示--->
+
+<section>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $.cookie("token", [[${session.token}]], {path: '/'});
+            jQuery.post("/links/queryCurrentUserSetUrl", {
+                "token": $.cookie("token")
+            }, function (data) {
+                var menuArr;
+                menuArr = data.result;
+                for (var i=0;i<menuArr.length;i++)
+                {
+                    switch (menuArr[i].linkId) {
+                        case "001":
+                            $("#001").show();
+                            break;
+                        case "002":
+                            $("#002").show();
+                            break;
+                        case "003":
+                            $("#003").show();
+                            break;
+                        case "004":
+                            $("#004").show();
+                            break;
+                        case "005":
+                            $("#005").show();
+                            break;
+                        case "006":
+                            $("#006").show();
+                            break;
+                        case "007":
+                            $("#007").show();
+                            break;
+                    }
+                }
+            }, "json");
+            function a() {
+                $("select#demo1").treeMultiselect(c)
+            }
+
+            var c = {
+                sortable:false,
+                allowBatchSelection:true,
+                collapsible:true,
+                hideSidePanel:false, //Hide the right panel showing all the selected items
+                sectionDelimiter:'/',	//Separator between sections in the select option data-section attribute
+                showSectionOnSelected:true,//Show section name on the selected items
+                startCollapsed:true
+            };
+            a()
+        });
+    </script>
+</section>
+<script>
+    var data = [
+        { startDate: "2018-6-10", name: "事件1" },
+        { startDate: "2018-7-10", name: "事件1" },
+        { startDate: "2018-8-10", name: "事件1" },
+        { startDate: "2018-9-10", name: "事件1" },
+        { startDate: "2018-10-10", name: "事件1" },
+        { startDate: "2018-11-1", name: "事件2" },
+        { startDate: "2018-11-1", name: "事件11" },
+        { startDate: "2018-12-1", name: "事件12" },
+        { startDate: "2018-12-1", name: "事件13" },
+        { startDate: "2018-12-1", name: "事14" },
+        { startDate: "2019-1-10", name: "事件14" },
+        { startDate: "2019-2-10", name: "事件14" },
+        { startDate: "2019-3-10", name: "事件14" },
+        { startDate: "2019-4-10", name: "事件14" },
+        { startDate: "2019-5-10", name: "事件14" },
+        { startDate: "2019-6-10", name: "事件14" },
+        { startDate: "2019-7-10", name: "事件14" },
+        { startDate: "2019-8-10", name: "事件14" },
+        { startDate: "2019-9-10", name: "事件14" },
+        { startDate: "2019-10-10", name: "事件14" },
+        { startDate: "2019-11-10", name: "事件14" },
+        { startDate: "2019-12-10", name: "事件14" },
+        { startDate: "2020-1-10", name: "事件14" },
+        { startDate: "2020-2-10", name: "事件14" },
+    ]
+
+    $("#calendar").calendar({
+        data: data,
+        mode: "month",
+        //  maxEvent: 3,
+        //showModeBtn: false
+        //  newDate: "2018-04-1",
+        cellClick: function (events) {
+            //viewCell的事件列表
+        },
+    })
+</script>
+</body>
+</html>
