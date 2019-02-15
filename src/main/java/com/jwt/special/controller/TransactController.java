@@ -43,6 +43,7 @@ public class TransactController {
     @Autowired
     private DictionaryService dictionaryService;
 
+    @NeedLoggedUser
     @RequestMapping(value = "/pager", method = RequestMethod.GET)
     public String pager(TransactQueryParam transactQueryParam, @RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize, Model model) {
         transactQueryParam.setPageNo(pageNum);

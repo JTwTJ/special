@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 public class MainController {
 
+    @NeedLoggedUser
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
-     public String home() { return "index"; }
+    public String home() { return "index"; }
 
     @RequestMapping(value = "/leftnav", method = RequestMethod.GET)
     public String leftnav() { return "leftnav"; }
